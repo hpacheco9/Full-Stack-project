@@ -1,0 +1,97 @@
+body {
+  background-image: url("/assets/background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  width: 95%;
+}
+
+body img {
+  width: 40%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.header {
+  width: 295px;
+  height: 38px;
+  left: 74px;
+  top: 96px;
+  position: absolute;
+}
+
+#Counter-Strike {
+  color: white;
+  font-size: 36px;
+  font-family: Counter-Strike;
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+#Quiz {
+  color: white;
+  font-size: 24px;
+  font-family: Counter-Strike;
+  font-weight: 500;
+  word-wrap: break-word;
+  margin-left: 200px;
+}
+
+#registar {
+  position: relative;
+  color: white;
+  font-family: Counter-Strike;
+  font-size: 64px;
+  left: 64px;
+  top: 200px;
+}
+
+#ou {
+  top: 10px;
+  position: relative;
+  color: white;
+  font-family: Counter-Strike;
+  font-size: 24px;
+  left: 214px;
+  width: 30%;
+}
+
+.formulario {
+  margin-top: 250px;
+  margin-left: 80px;
+}
+
+.formulario input {
+  width: 300px;
+  height: 40px;
+  margin-top: 10px;
+}
+
+input[type="button"] {
+  width: 308px;
+  height: 40px;
+  margin-top: 10px;
+  margin-left: 80px;
+}
+
+#google-icon {
+  width: 36px;
+  height: 36px;
+  left: 221px;
+  top: 620px;
+}
+
+#conta-existente {
+  position: relative;
+  color: white;
+  font-family: Counter-Strike;
+  font-size: 24px;
+
+  left: 115px;
+  top: 70px;
+  width: 30%;
+  text-decoration: underline;
+}
