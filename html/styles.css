@@ -1,90 +1,70 @@
-@import url('https://fonts.cdnfonts.com/css/counter-strike');
-
-* {
+body {
     margin: 0;
     padding: 0;
-    position: relative;
-}
-
-body {
-    background-image: url("/Assets/cs.jpg");
+    background-image: url("./Assets/mirage.png");
     background-repeat: no-repeat;
     background-size: cover;
-    height:auto;
-  }
-
-
-form input {
-    margin-top: 1%;
-    margin-left: 5%;
+    height: auto;
 }
 
-form .user input{
+.div {
+    display: flex;
+    max-width: 859px;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.div-2 {
+    color: var(--Color-2, #fff);
+    align-self: center;
+    font: 400 64px counter-strike, sans-serif;
+    margin-top: 7%;
+    margin-left: 70%;
+}
+
+.div-3 {
+    border-radius: 13px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: #fffdfd;
+    margin-top: 42px;
+    margin-left: 53%;
+    width: 60%;
+    padding: 13px 12px;
+}
+
+.div-4 {
+    gap: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.column {
     display: flex;
     flex-direction: column;
-    height: 40px;
-    width: 300px;
-    border: none;
+    line-height: normal;
 }
 
-.cstext img{
-    margin-top: 5%;
-    margin-left: 5%;
-    margin-bottom: 7%;
-    width: 295px;
-    height: 38px;
+.div-5 {
+    background-image: url("./Assets/rectangle11.jpg");
+    color: #fff;
+    padding: 20px 70px;
+    border-radius: 10px;
+    margin-top: 2px;
+    text-align: center;
 }
 
-.menu2 img {
-    position: absolute;
-    margin-bottom: 47px;
+.column-2 {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    margin-left: 2%;
 }
 
-.submit input {
-    margin-left: 5%;
-    margin-top: 19px;
-    height: 40px;
-    width: 300px;
-    border: none;
+.div-6 {
+    background-image: url("./Assets/rectangle11.jpg");
+    color: #fff;
+    padding: 20px 85px;
+    border-radius: 10px;
+    margin-top: 2px;
+    text-align: center;
 }
-
-.logintext {
-    color: white;
-    font-size: 64px;
-    margin-left: 9%;
-    margin-bottom: 2%;
-    font-family: "Counter-Strike";
-    font-weight: 500;
-    word-wrap: break-word
-}
-
-
-.or p {
-    margin-top: 2%;
-    color: white;
-    font-size: 25px;
-    margin-left: 12%;
-    margin-bottom: 2%;
-    font-family: "Counter-Strike";
-    font-weight: 500;
-    word-wrap: break-word
-}
-
-
-.logo img {
-    margin-left: 12%;
-}
-
-.criar {
-    margin-top: 2%;
-    color: white;
-    font-size: 30px;
-    margin-left:8%;
-    margin-bottom: 2%;
-    font-family: "Counter-Strike";
-    font-weight: 500;
-    word-wrap: break-word;
-    text-decoration: underline;
-}
-
-
