@@ -18,8 +18,8 @@ body img {
 .header {
   width: 295px;
   height: 38px;
-  left: 74px;
-  top: 96px;
+  margin-left: 3.04%;
+  margin-top: 2.5%;
   position: absolute;
 }
 
@@ -37,7 +37,7 @@ body img {
   font-family: Counter-Strike;
   font-weight: 500;
   word-wrap: break-word;
-  margin-left: 200px;
+  margin-left: 70%;
 }
 
 #registar {
