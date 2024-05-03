@@ -1,23 +1,17 @@
-import { query } from "./database.js";
 import bcrypt from "bcrypt";
+import User from "../models/user.js";
 import { UserExistError } from "../errors/user.js";
 
 /* FROM DATABASE */
 
 // Get all users
 export async function getAllUsers() {
-  return await query("SELECT * FROM users");
+  return await User.findAll();
 }
 
 // Get user by username
 export async function getUser(username) {
-  const { result } = await query(
-    `SELECT * FROM users WHERE username="${username}"`
-  );
-  if (result.length === 0) {
-    return null;
-  }
-  return result[0];
+  return await User.findByPk(username);
 }
 
 function generatePasswordHash(password) {
@@ -35,40 +29,35 @@ function generatePasswordHash(password) {
 
 // Create user
 export async function create(user) {
-  // make sure that the user does not exist
-  const { username, password } = user;
-  const existingUser = await getUser(username);
-  if (!existingUser) {
-    const passwordHash = await generatePasswordHash(password);
-    let q = `
-            INSERT INTO \`users\` (
-                \`username\`,
-                \`email\`,
-                \`firstName\`,
-                \`lastName\`,
-                \`passwordHash\`
-            )
-            VALUES
-            (
-                "${user.username}",
-                "${user.email}",
-                "${user.firstName}",
-                "${user.lastName}",
-                "${passwordHash}"
-            );
-        `;
+  const passwordHash = await generatePasswordHash(user.password);
+  delete user["password"];
 
-    q = q.replace("\n", "");
-    await query(q);
-    return await getUser(user.username);
+  const newUser = new User({
+    ...user,
+    passwordHash: passwordHash,
+  });
+
+  try {
+    await newUser.save();
+  } catch (err) {
+    if (err.name === "SequelizeUniqueConstraintError") {
+      throw new UserExistError();
+    }
+    console.log(instaerr);
   }
-  throw new UserExistError("User already exists...");
+
+  return newUser;
 }
 
 // Update user
-function update(username, updatedUser) {}
+function update(username, updatedUser) {
+  // TODO
+}
 
 // Delete user
 export async function remove(username) {
-  await query(`DELETE FROM users WHERE username="${username}"`);
+  const user = await getUser(username);
+  if (user) {
+    await user.destroy();
+  }
 }

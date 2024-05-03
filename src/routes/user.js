@@ -6,18 +6,8 @@ import { validateSchema } from "../middlewares/validation.js";
 
 const router = Router();
 
-router.get("/details", async (req, res) => {
-  if (req.session.user) {
-    // const user = req.session.user;
-    const { user } = req.session;
-    res.render("login");
-  } else {
-    res.render("unauthorized");
-  }
-});
-
 router.get("/", async (req, res) => {
-  const { result } = await getAllUsers();
+  const result = await getAllUsers();
   if (!result || result.length <= 0) {
     return res.status(204).send();
   }
