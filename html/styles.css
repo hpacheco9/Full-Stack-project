@@ -136,5 +136,5 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 9999; /* Ensure it's on top of other content */
+    z-index: 9999;
 }
