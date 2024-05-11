@@ -24,10 +24,6 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
-app.get("/", async (req, res) => {
-  res.render("registo");
-});
-
 // Configure session
 const DBSessionStore = MySQLStore(session);
 const sessionStore = new DBSessionStore(options);
@@ -48,6 +44,10 @@ app.use(bodyParser.urlencoded());
 // Routes
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
+
+app.get("/", (req, res) => {
+  res.render("menu");
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
