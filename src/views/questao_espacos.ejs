@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Questão V/F</title>
+    <title>Questão Espaços</title>
     <link rel="stylesheet" type="text/css" href="/css/questao_espacos.css" />
   </head>
   <body>
@@ -16,16 +16,16 @@
     <div id="timer">
       <p>5:00</p>
     </div>
-    <img src="/images/mvp.png" alt="mvp-logo" class="mvp-logo" />
+    <img src=<%=image%> alt="mvp-logo" class="mvp-logo" />
     <div id="question-container">
-      <span id="question">O jogador com mais MVPs é</span>
+      <span id="question"><%=question%></span>
       <input type="text" id="answer" />
     </div>
     <div class="options">
-      <p>s1mple</p>
-      <p>Zywoo</p>
-      <p>Niko</p>
-      <p>coldzera</p>
+      <p><%=options[0]%></p>
+      <p><%=options[1]%></p>
+      <p><%=options[2]%></p>
+      <p><%=options[3]%></p>
     </div>
   </body>
 </html>

@@ -75,11 +75,12 @@ input[type="text"] {
   border-bottom: 1px solid white; 
   background-color: transparent; 
   text-align: center;
-
   width: 10%; 
   outline: none; 
   color: white;
 }
+
+
 
 .options p {
   font-size: 24px;

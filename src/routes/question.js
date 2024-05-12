@@ -14,11 +14,13 @@ router.get("/vf", (req, res) => {
 });
 
 router.get("/espacos", (req, res) => {
-  let questao = "Quantos espaços existem entre as palavras desta frase?";
-  let frase = "Esta frase tem 7 espaços.";
+  let questao = "O jogador com mais MVPs é";
+  let opcoes = ["s1mple", "coldzera", "device", "NiKo"]
+  let imagem = "/images/mvp.png";
   res.render("questao_espacos", {
     question: questao,
-    sentence: frase,
+    options: opcoes,
+    image: imagem,
   });
 });
 
@@ -26,7 +28,7 @@ router.get("/espacos", (req, res) => {
 
 router.get("/mais1", (req, res) => {
   let questao = "Quais são essas granadas?";
-  let opcoes = ["Molotov", "HE", "Decoy", ""];
+  let opcoes = ["Molotov", "HE", "Decoy", "Flashbang"];
   let imagem = "/images/granadas.png";
   res.render("questao_vf", {
     question: questao,
@@ -38,10 +40,10 @@ router.get("/mais1", (req, res) => {
 router.get("/m1", (req, res) => {
   let questao = "Qual é esta skin?";
   let opcoes = ["Asiimov", "Dragon Lore", "Medusa", "Redline"];
-  let imagem = "/images/half-life-logo.jpg";
+  let imagem = "/images/dlore.png";
   res.render("questao_m1", {
     question: questao,
-    sentence: frase,
+    options:opcoes,
     image: imagem,
   });
 });

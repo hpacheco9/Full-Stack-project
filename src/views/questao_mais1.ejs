@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina de Pergunta +1</title>~
+    <title>Pagina de Pergunta +1</title>
     <link rel="stylesheet" href="/css/questao_mais1.css"> 
 </head>
 <body>
     <p> 5 : 00</p>
     <div class="imagem">
-        <img src=<%=image%>
+        <img src=<%=image%>/>
     </div>
     <div class="question">
         <p><%=question%></p>
@@ -19,13 +19,13 @@
         <form id="questionForm">
 
             <div class="button-grid">
-                <input class="change-color-button" type="button" id="answer1" name="answers" onclick="toggleClicked(this)" value=<%=options[0]%> 
+                <input class="change-color-button" type="button" id="answer1" name="answers" onclick="toggleClicked(this)" value=<%=options[0]%>/>
           
-                <input class="change-color-button" type="button" id="answer2" name="answers" onclick="toggleClicked(this)" value=<%=options[1]%> 
+                <input class="change-color-button" type="button" id="answer2" name="answers" onclick="toggleClicked(this)" value=<%=options[1]%>/>
              
-                <input class="change-color-button" type="button" id="answer3" name="answers"  onclick="toggleClicked(this)"  value=<%=options[3]%>
+                <input class="change-color-button" type="button" id="answer3" name="answers"  onclick="toggleClicked(this)"  value=<%=options[2]%>/>
     
-                <input class="change-color-button" type="button" id="answer4" name="answers" onclick="toggleClicked(this)"  value=<%=options[4]%>
+                <input class="change-color-button" type="button" id="answer4" name="answers" onclick="toggleClicked(this)"  value=<%=options[3]%>/>
             </div>
              <button type="submit" onclick="showSelectedAnswers(this) "> next</button>
         

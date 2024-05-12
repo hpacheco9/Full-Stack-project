@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import userRoutes from "./src/routes/user.js";
 import bodyParser from "body-parser";
 import session from "express-session";
+import leaderboardRoutes from "./src/routes/leaderboard.js";
 import authRoutes from "./src/routes/auth.js";
 
 import questionRoutes from "./src/routes/question.js";
@@ -45,10 +46,10 @@ app.use(bodyParser.urlencoded());
 
 // Routes
 
-
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/question", questionRoutes);
+app.use("/leaderboards", leaderboardRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
