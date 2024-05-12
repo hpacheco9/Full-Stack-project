@@ -24,7 +24,7 @@ router.get("/espacos", (req, res) => {
 
 
 
-router.get("/m1", (req, res) => {
+router.get("/mais1", (req, res) => {
   let questao = "Quais são essas granadas?";
   let opcoes = ["Molotov", "HE", "Decoy", ""];
   let imagem = "/images/granadas.png";
@@ -35,6 +35,16 @@ router.get("/m1", (req, res) => {
   });
 });
 
+router.get("/m1", (req, res) => {
+  let questao = "Qual é esta skin?";
+  let opcoes = ["Asiimov", "Dragon Lore", "Medusa", "Redline"];
+  let imagem = "/images/half-life-logo.jpg";
+  res.render("questao_m1", {
+    question: questao,
+    sentence: frase,
+    image: imagem,
+  });
+});
 
 
 

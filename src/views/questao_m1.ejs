@@ -3,63 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina de Pergunta +1</title>~
-    <link rel="stylesheet" href="/public/css/question.css"> 
+    <title>Escolha Múltipla</title>
+    <link rel="stylesheet" href="/css/questao_m1.css"> 
 </head>
 <body>
-    <p> 5 : 00</p>
-    <div class="imagem">
-        <img src=<%=image%>
-    </div>
-    <div class="question">
-        <p><%=question%></p>
-    </div>
-
-    <div class="form">
-        <form id="questionForm">
-
-            <div class="button-grid">
-                <input class="change-color-button" type="button" id="answer1" name="answers" onclick="toggleClicked(this)" value=<%=options[0]%> 
-          
-                <input class="change-color-button" type="button" id="answer2" name="answers" onclick="toggleClicked(this)" value=<%=options[1]%> 
-             
-                <input class="change-color-button" type="button" id="answer3" name="answers"  onclick="toggleClicked(this)"  value=<%=options[3]%>
-    
-                <input class="change-color-button" type="button" id="answer4" name="answers" onclick="toggleClicked(this)"  value=<%=options[4]%>
+    <div class="bg-video">
+        <video autoplay loop muted>
+          <source src="/videos/mirage-snow.webm" type="video/webm" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    <div class="container">
+        <div class="header" id="timer">
+            <p>0:20</p>
+        </div>
+        <img src="images/dlore.png" alt="Question" class="question-image">
+        <p class="question-text">Qual é esta skin?</p>
+        <div class="options">
+            <div class="radio-container">
+              <input type="radio" name="option" id="option1" />
+              <label for="option1" class="radio-button option1">Opção 1</label>
             </div>
-             <button type="submit" onclick="showSelectedAnswers(this) "> next</button>
-        
-        </form>
-       
+            <div class="radio-container">
+              <input type="radio" name="option" id="option2" />
+              <label for="option2" class="radio-button option2">Opção 2</label>
+            </div>
+            <div class="radio-container">
+                <input type="radio" name="option" id="option3" />
+                <label for="option3" class="radio-button option3">Opção 3</label>
+            </div>
+            <div class="radio-container">
+                <input type="radio" name="option" id="option4" />
+                <label for="option4" class="radio-button option4">Opção 4</label>
+            </div>
+        </div>
     </div>
 
-
-    <script>
-
-
-        function toggleClicked(button) {
-            var clickedButtons = document.querySelectorAll('.change-color-button.clicked');
-
-            if (clickedButtons.length >= 3 && !button.classList.contains('clicked')) {
-                return;
-            }
-            button.classList.toggle('clicked');
-        }
-
-        function showSelectedAnswers(button) {
-            var selectedButtons = document.querySelectorAll('.change-color-button.clicked');
-            if (selectedButtons.length === 0) {
-                alert("Please select at least one answer.");
-                return;
-            }
-
-            var selectedAnswers = [];
-            selectedButtons.forEach(function(button) {
-                selectedAnswers.push(button.value);
-            });
-
-            alert("Selected answers: " + selectedAnswers.join(', '));
-        }
-    </script>
 </body>
 </html>
