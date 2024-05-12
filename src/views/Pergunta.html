@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina de Pergunta +1</title>~
+    <link rel="stylesheet" href="question.css"> 
+</head>
+<body>
+    <p> 5 : 00</p>
+    <div class="imagem">
+        <img src="/Assets/transferir 1.png">
+    </div>
+    <div class="question">
+        <p>
+            Quais são estas granadas?
+        </p>
+    </div>
+
+    <div class="form">
+        <form id="questionForm">
+
+            <div class="button-grid">
+                <input class="change-color-button" type="button" id="answer1" name="answers" value="HE" onclick="toggleClicked(this)">
+          
+                <input class="change-color-button" type="button" id="answer2" name="answers" value="Molotov" onclick="toggleClicked(this)">
+             
+                <input class="change-color-button" type="button" id="answer3" name="answers" value="Smoke" onclick="toggleClicked(this)" >
+    
+                <input class="change-color-button" type="button" id="answer4" name="answers" value="Flashbang" onclick="toggleClicked(this)">
+            </div>
+             <button type="submit" onclick="showSelectedAnswers(this) "> next</button>
+        
+        </form>
+       
+    </div>
+
+
+    <script>
+
+
+        function toggleClicked(button) {
+            var clickedButtons = document.querySelectorAll('.change-color-button.clicked');
+
+            if (clickedButtons.length >= 3 && !button.classList.contains('clicked')) {
+                return;
+            }
+            button.classList.toggle('clicked');
+        }
+
+        function showSelectedAnswers(button) {
+            var selectedButtons = document.querySelectorAll('.change-color-button.clicked');
+            if (selectedButtons.length === 0) {
+                alert("Please select at least one answer.");
+                return;
+            }
+
+            var selectedAnswers = [];
+            selectedButtons.forEach(function(button) {
+                selectedAnswers.push(button.value);
+            });
+
+            alert("Selected answers: " + selectedAnswers.join(', '));
+        }
+    </script>
+</body>
+</html>
