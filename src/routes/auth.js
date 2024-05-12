@@ -12,6 +12,10 @@ router.get("/", authGuard, (req, res) => {
   return res.json(user);
 });
 
+router.get("/login", (req, res) => {
+  res.render("login");
+});
+
 const loginSchema = checkSchema({
   username: {
     notEmpty: true,
@@ -25,12 +29,11 @@ const loginSchema = checkSchema({
 router.post("/", [loginSchema, validateSchema], async (req, res) => {
   const { username, password } = req.body;
   const user = await login(username, password);
-
   if (!user) {
     return res.status(401).send();
   }
-
   // Store user in session
+  res.render("menu");
   req.session.user = user;
   res.send();
 });

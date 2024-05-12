@@ -35,8 +35,12 @@ form .user input {
 }
 
 .menu2 img {
-  position: absolute;
-  margin-bottom: 47px;
+  width: 40%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 .submit input {
@@ -76,10 +80,15 @@ form .user input {
   margin-top: 2%;
   color: white;
   font-size: 30px;
-  margin-left: 8%;
+  margin-left: 7%;
   margin-bottom: 2%;
   font-family: "Counter-Strike";
   font-weight: 500;
   word-wrap: break-word;
   text-decoration: underline;
+}
+
+.criar a {
+  text-decoration: none;
+  color: white;
 }

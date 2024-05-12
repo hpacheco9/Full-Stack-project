@@ -15,6 +15,7 @@ router.get("/", async (req, res) => {
   return res.json(result);
 });
 
+/*
 router.get("/:username", async (req, res) => {
   const { username } = req.params;
 
@@ -25,6 +26,7 @@ router.get("/:username", async (req, res) => {
   delete user["passwordHash"];
   return res.json(user);
 });
+*/
 
 router.delete("/:username", async (req, res) => {
   const { username } = req.params;
@@ -54,6 +56,10 @@ const userSchema = checkSchema({
       errorMessage: "Password should be at least 5 chars",
     },
   },
+});
+
+router.get("/registo", (req, res) => {
+  res.render("registo");
 });
 
 router.post("/", [userSchema, validateSchema], async (req, res) => {

@@ -4,6 +4,8 @@ import userRoutes from "./src/routes/user.js";
 import bodyParser from "body-parser";
 import session from "express-session";
 import authRoutes from "./src/routes/auth.js";
+
+import questionRoutes from "./src/routes/question.js";
 import MySQLStore from "express-mysql-session";
 import { options, syncDatabase } from "./src/services/database.js";
 
@@ -42,12 +44,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 // Routes
+
+
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
-
-app.get("/", (req, res) => {
-  res.render("menu");
-});
+app.use("/question", questionRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

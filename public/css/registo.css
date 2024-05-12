@@ -58,6 +58,7 @@ body img {
   font-family: Counter-Strike;
   font-size: 24px;
   margin-left: 11.8%;
+  font-weight: 500;
 }
 
 .formulario {
@@ -91,5 +92,6 @@ input[type="submit"] {
   font-size: 24px;
   margin-left: 6%;
   margin-top: 6%;
+  font-weight: 500;
   text-decoration: underline;
 }

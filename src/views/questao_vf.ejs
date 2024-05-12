@@ -16,20 +16,16 @@
     <div id="timer">
       <p>5:00</p>
     </div>
-    <img
-      src="images/half-life-logo.jpg"
-      alt="half-life-logo"
-      class="half-life-logo"
-    />
-    <p id="question">O Counter-Strike começou como um mod do Half-Life.</p>
+    <img src=<%=image%> alt="half-life-logo" class="half-life-logo" />
+    <p id="question"><%=question%></p>  
     <div class="options">
       <div class="radio-container">
         <input type="radio" name="option" id="true" />
-        <label for="true" class="radio-button true">Verdadeiro</label>
+        <label for="true" class="radio-button true"><%=options[0]%></label>
       </div>
       <div class="radio-container">
         <input type="radio" name="option" id="false" />
-        <label for="false" class="radio-button false">Falso</label>
+        <label for="false" class="radio-button false"><%=options[1]%></label>
       </div>
     </div>
   </body>
