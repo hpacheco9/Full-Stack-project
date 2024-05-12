@@ -22,4 +22,20 @@ router.get("/espacos", (req, res) => {
   });
 });
 
+
+
+router.get("/m1", (req, res) => {
+  let questao = "Quais são essas granadas?";
+  let opcoes = ["Molotov", "HE", "Decoy", ""];
+  let imagem = "/images/granadas.png";
+  res.render("questao_vf", {
+    question: questao,
+    options: opcoes,
+    image: imagem,
+  });
+});
+
+
+
+
 export default router;

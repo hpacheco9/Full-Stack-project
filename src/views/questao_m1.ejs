@@ -9,25 +9,23 @@
 <body>
     <p> 5 : 00</p>
     <div class="imagem">
-        <img src="/Assets/transferir 1.png">
+        <img src=<%=image%>
     </div>
     <div class="question">
-        <p>
-            Quais são estas granadas?
-        </p>
+        <p><%=question%></p>
     </div>
 
     <div class="form">
         <form id="questionForm">
 
             <div class="button-grid">
-                <input class="change-color-button" type="button" id="answer1" name="answers" value="HE" onclick="toggleClicked(this)">
+                <input class="change-color-button" type="button" id="answer1" name="answers" value=<%=options[0]% onclick="toggleClicked(this)">
           
-                <input class="change-color-button" type="button" id="answer2" name="answers" value="Molotov" onclick="toggleClicked(this)">
+                <input class="change-color-button" type="button" id="answer2" name="answers" value=<%=options[1]% onclick="toggleClicked(this)">
              
-                <input class="change-color-button" type="button" id="answer3" name="answers" value="Smoke" onclick="toggleClicked(this)" >
+                <input class="change-color-button" type="button" id="answer3" name="answers" value=<%=options[3]% onclick="toggleClicked(this)" >
     
-                <input class="change-color-button" type="button" id="answer4" name="answers" value="Flashbang" onclick="toggleClicked(this)">
+                <input class="change-color-button" type="button" id="answer4" name="answers" value=<%=options[4]% onclick="toggleClicked(this)">
             </div>
              <button type="submit" onclick="showSelectedAnswers(this) "> next</button>
         
