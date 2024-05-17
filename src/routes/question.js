@@ -15,7 +15,7 @@ router.get("/vf", (req, res) => {
 
 router.get("/espacos", (req, res) => {
   let questao = "O jogador com mais MVPs é";
-  let opcoes = ["s1mple", "coldzera", "device", "NiKo"]
+  let opcoes = ["s1mple", "coldzera", "device", "NiKo"];
   let imagem = "/images/mvp.png";
   res.render("questao_espacos", {
     question: questao,
@@ -24,13 +24,11 @@ router.get("/espacos", (req, res) => {
   });
 });
 
-
-
 router.get("/mais1", (req, res) => {
   let questao = "Quais são essas granadas?";
   let opcoes = ["Molotov", "HE", "Decoy", "Flashbang"];
   let imagem = "/images/granadas.png";
-  res.render("questao_vf", {
+  res.render("questao_mais1", {
     question: questao,
     options: opcoes,
     image: imagem,
@@ -43,11 +41,9 @@ router.get("/m1", (req, res) => {
   let imagem = "/images/dlore.png";
   res.render("questao_m1", {
     question: questao,
-    options:opcoes,
+    options: opcoes,
     image: imagem,
   });
 });
-
-
 
 export default router;

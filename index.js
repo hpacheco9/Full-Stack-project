@@ -5,7 +5,6 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import leaderboardRoutes from "./src/routes/leaderboard.js";
 import authRoutes from "./src/routes/auth.js";
-
 import questionRoutes from "./src/routes/question.js";
 import MySQLStore from "express-mysql-session";
 import { options, syncDatabase } from "./src/services/database.js";
@@ -30,7 +29,7 @@ app.set("views", "./src/views");
 // Configure session
 const DBSessionStore = MySQLStore(session);
 const sessionStore = new DBSessionStore(options);
-
+  
 app.use(
   session({
     secret: process.env.SECRET,

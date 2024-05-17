@@ -1,25 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    position: relative;
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
-body {
-    background-image: url("/Assets/mirage-snow\ 1.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height:auto;
-}
+.bg-video {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+  .bg-video video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
-.imagem {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    height: 50%;
-    padding-bottom: 2%;
 
+
+.grenades {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 35%;
+    border-radius: 50px;
+    margin-top: 2%;
 }
 
 p {
