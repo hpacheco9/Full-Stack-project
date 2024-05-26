@@ -17,7 +17,6 @@ export async function getUser(username) {
 function generatePasswordHash(password) {
   const saltRounds = 10;
   return new Promise((resolve, reject) => {
-    // Generate password hash
     bcrypt.hash(password, saltRounds, function (err, hash) {
       if (err) {
         return reject(err);
@@ -50,8 +49,11 @@ export async function create(user) {
 }
 
 // Update user
-function update(username, updatedUser) {
-  // TODO
+export async function update(username, updatedUser) {
+  const user = await getUser(username);
+  if (user) {
+    await user.update(updatedUser);
+  }
 }
 
 // Delete user

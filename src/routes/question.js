@@ -1,7 +1,13 @@
 import { Router } from "express";
+import { getAllQuestions } from "../services/question.js";
 
 const router = Router();
 
+router.get("/", async (req, res) => {
+  res.json(await getAllQuestions());
+});
+
+/*
 router.get("/vf", (req, res) => {
   let questao = "O Counter-Strike começou como um mod do Half-Life.";
   let opcoes = ["Verdadeiro", "Falso"];
@@ -45,5 +51,6 @@ router.get("/m1", (req, res) => {
     image: imagem,
   });
 });
+*/
 
 export default router;

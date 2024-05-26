@@ -3,7 +3,6 @@ import { create, getAllUsers, getUser, remove } from "../services/user.js";
 import { checkSchema, validationResult, matchedData } from "express-validator";
 import { UserExistError } from "../errors/user.js";
 import { validateSchema } from "../middlewares/validation.js";
-import { getRounds } from "bcrypt";
 
 const router = Router();
 

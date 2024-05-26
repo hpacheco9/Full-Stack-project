@@ -6,8 +6,8 @@ import session from "express-session";
 import leaderboardRoutes from "./src/routes/leaderboard.js";
 import authRoutes from "./src/routes/auth.js";
 import questionRoutes from "./src/routes/question.js";
-import MySQLStore from "express-mysql-session";
-import { options, syncDatabase } from "./src/services/database.js";
+import { syncDatabase } from "./src/services/database.js";
+import { sessionStore } from "./src/services/database.js";
 
 // Configure environment variables
 dotenv.config();
@@ -27,9 +27,6 @@ app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
 // Configure session
-const DBSessionStore = MySQLStore(session);
-const sessionStore = new DBSessionStore(options);
-  
 app.use(
   session({
     secret: process.env.SECRET,
@@ -44,7 +41,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 // Routes
-
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/question", questionRoutes);
