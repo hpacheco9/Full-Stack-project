@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import Admin from "../models/admin.js";
 import MySQLStore from "express-mysql-session";
 import session from "express-session";
+import IndividualLeaderboard from "../models/individual_leaderboard.js";
+import TeamLeaderboard from "../models/team_leaderboard.js";
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ const { DB, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 export async function syncDatabase() {
   await User.sync();
   await Admin.sync();
+  await IndividualLeaderboard.sync();
+  await TeamLeaderboard.sync();
 }
 
 export const options = {
