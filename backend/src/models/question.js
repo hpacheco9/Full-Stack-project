@@ -2,6 +2,20 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
+const StringRequiredType = {
+  type: String,
+  required: true,
+};
+
+export const BooleanQuestionType = "boolean";
+export const BlanksQuestionType = "blanks";
+export const OneValidQuestionType = "oneValid";
+export const MultipleValidQuestionType = "multipleValid";
+
+const questionTypeSchema = new Schema({
+  description: StringRequiredType,
+});
+
 const questionSchema = new Schema({
   image: {
     type: String,
@@ -12,9 +26,9 @@ const questionSchema = new Schema({
     required: true,
   },
   type: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "QuestionTypes",
     required: true,
-    lowercase: true,
   },
   difficulty: {
     type: String,
@@ -47,5 +61,6 @@ const questionSchema = new Schema({
 });
 
 const Question = mongoose.model("Questions", questionSchema);
+const QuestionType = mongoose.model("QuestionTypes", questionTypeSchema);
 
 export default Question;
