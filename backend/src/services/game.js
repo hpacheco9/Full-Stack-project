@@ -1,5 +1,5 @@
-import Game from "../models/game";
-import { validateAwnser } from "./question";
+import Game from "../models/game.js";
+import { validateAwnser } from "./question.js";
 
 export async function updateGame(
   providedGameId,
@@ -30,18 +30,20 @@ export async function getNextGameId() {
   return games[games.length - 1].gameId + 1;
 }
 
-export async function createGame(gameId, questions, entityName) {
-  const answer = "";
+export async function createGame(gameId, questionsArray, entityName) {
+  const answer = "awnser";
   const points = 0;
-  for (const question of questions) {
-    const questionDescription = question.description;
-    const game = new Game({
-      gameId,
-      questionDescription,
-      entityName,
-      answer,
-      points,
-    });
-    return await game.save();
+  for (const array of questionsArray) {
+    for (const question of array) {
+      const questionDescription = question.description;
+      const game = new Game({
+        gameId,
+        questionDescription,
+        entityName,
+        answer,
+        points,
+      });
+      await game.save();
+    }
   }
 }

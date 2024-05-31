@@ -60,7 +60,5 @@ const questionSchema = new Schema({
   },
 });
 
-const Question = mongoose.model("Questions", questionSchema);
-const QuestionType = mongoose.model("QuestionTypes", questionTypeSchema);
-
-export default Question;
+export const Question = mongoose.model("questions", questionSchema);
+export const QuestionType = mongoose.model("questionTypes", questionTypeSchema);

@@ -6,6 +6,7 @@ import session from "express-session";
 import leaderboardRoutes from "./src/routes/leaderboard.js";
 import authRoutes from "./src/routes/auth.js";
 import questionRoutes from "./src/routes/question.js";
+import gameRoutes from "./src/routes/game.js";
 import { syncDatabase } from "./src/services/database.js";
 import { sessionStore } from "./src/services/database.js";
 
@@ -45,6 +46,7 @@ app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/question", questionRoutes);
 app.use("/leaderboards", leaderboardRoutes);
+app.use("/game", gameRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

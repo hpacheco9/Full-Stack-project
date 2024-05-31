@@ -1,52 +1,62 @@
-import Question from "../models/question.js";
+import { Question } from "../models/question.js";
+import {
+  BlanksQuestionType,
+  BooleanQuestionType,
+  MultipleValidQuestionType,
+  OneValidQuestionType,
+  QuestionType,
+} from "../models/question.js";
 
 export async function getAllQuestions() {
   return await Question.find({});
 }
 
 export async function generateGameQuestions(providedDifficulty) {
-  const numberOfQuestions = 20;
   const questions = [];
   if (providedDifficulty === "easy") {
-    questions.push(
-      await Question.aggregate()
-        .match({ difficulty: providedDifficulty })
-        .sample(20)
-    );
-  } else if (providedDifficulty === "medium") {
+    const easyQuestions = await Question.aggregate()
+      .match({ difficulty: providedDifficulty })
+      .sample(21);
+    questions.push(easyQuestions);
+    return questions;
+  } else if (providedDifficulty === "moderate") {
     const easyQuestions = await Question.aggregate()
       .match({ difficulty: "easy" })
-      .sample(numberOfQuestions / 2);
+      .sample(10);
     const mediumQuestions = await Question.aggregate()
-      .match({ difficulty: "medium" })
-      .sample(numberOfQuestions / 2);
-    for (let i = 0; i < numberOfQuestions; i++) {
-      if (i % 2 === 0) {
-        questions.push(easyQuestions[i / 2]);
-      } else {
-        questions.push(mediumQuestions[i / 2]);
-      }
-    }
+      .match({ difficulty: "moderate" })
+      .sample(10);
+    questions.push(easyQuestions);
+    questions.push(mediumQuestions);
+    return questions;
   } else if (providedDifficulty === "hard") {
     const easyQuestions = await Question.aggregate()
       .match({ difficulty: "easy" })
-      .sample(numberOfQuestions / 2);
+      .sample(5);
     const mediumQuestions = await Question.aggregate()
-      .match({ difficulty: "medium" })
-      .sample(numberOfQuestions / 2);
+      .match({ difficulty: "moderate" })
+      .sample(5);
     const hardQuestions = await Question.aggregate()
       .match({ difficulty: "hard" })
-      .sample(numberOfQuestions / 2);
-    for (let i = 0; i < numberOfQuestions; i++) {
-      if (i % 3 === 0) {
-        questions.push(easyQuestions[i / 3]);
-      } else if (i % 3 === 1) {
-        questions.push(mediumQuestions[i / 3]);
-      } else {
-        questions.push(hardQuestions[i / 3]);
-      }
-    }
+      .sample(10);
+    questions.push(easyQuestions);
+    questions.push(mediumQuestions);
+    questions.push(hardQuestions);
     return questions;
+  }
+}
+
+export async function seedQuestionTypes() {
+  const types = [
+    { description: BooleanQuestionType },
+    { description: BlanksQuestionType },
+    { description: OneValidQuestionType },
+    { description: MultipleValidQuestionType },
+  ];
+
+  const questionTypeCount = await QuestionType.countDocuments();
+  if (questionTypeCount == 0) {
+    await QuestionType.insertMany(types);
   }
 }
 

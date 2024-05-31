@@ -1,16 +1,10 @@
 import { Router } from "express";
-import { authGuard } from "../middlewares/authGuard";
-import { validateSchema } from "../middlewares/validation";
-import { generateGameQuestions } from "../services/question";
-import {
-  createGame,
-  updateGame,
-  getNextGameId,
-  getGameResult,
-} from "../services/game";
-import { updateLeaderboard } from "../services/individual_leaderboard";
-import { updateLeaderboard } from "../services/team_leaderboard";
-
+import { authGuard } from "../middlewares/authGuard.js";
+import { checkSchema } from "express-validator";
+import { validateSchema } from "../middlewares/validation.js";
+import { generateGameQuestions } from "../services/question.js";
+import { createGame, getNextGameId } from "../services/game.js";
+import { seedQuestionTypes } from "../services/question.js";
 const router = Router();
 
 const gameStartSchema = checkSchema({
@@ -26,22 +20,20 @@ const gameStartSchema = checkSchema({
   },
 });
 
-router.post(
-  "/game",
-  [authGuard, gameStartSchema, validateSchema],
-  (req, res) => {
-    const { difficulty, soloGameType } = req.body;
-    let entityName = "";
-    if (soloGameType === "true") {
-      entityName = req.session.user.username;
-    } else {
-      entityName = "team_name";
-    }
-    const questions = generateGameQuestions(difficulty);
-    const gameId = getNextGameId();
-    createGame(gameId, questions, entityName);
+router.post("/", [gameStartSchema, validateSchema], async (req, res) => {
+  const { difficulty, soloGameType } = req.body;
+  let entityName = "";
+  if (soloGameType === "true") {
+    entityName = "req.session.user.username";
+  } else {
+    entityName = "team_name";
+  }
+  const questions = await generateGameQuestions(difficulty);
+  const gameId = await getNextGameId();
+  createGame(gameId, questions, entityName);
+  res.json({});
 
-    /*
+  /*
     for (let i = 0; i < questions.length; i++) {
       if questions[i].type === "vf") {
         res.render("question_vf", {
@@ -85,7 +77,6 @@ router.post(
     }
     res.render("game_result", { result });
     */
-  }
-);
+});
 
 export default router;
