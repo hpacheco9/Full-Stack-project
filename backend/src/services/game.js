@@ -30,7 +30,7 @@ export async function getNextGameId() {
   return games[games.length - 1].gameId + 1;
 }
 
-export async function createGame(gameId, questionsArray, entityName) {
+export async function createGame(gameId, seasonId, questionsArray, entityName) {
   const answer = "awnser";
   const points = 0;
   for (const array of questionsArray) {
@@ -38,6 +38,7 @@ export async function createGame(gameId, questionsArray, entityName) {
       const questionDescription = question.description;
       const game = new Game({
         gameId,
+        seasonId,
         questionDescription,
         entityName,
         answer,

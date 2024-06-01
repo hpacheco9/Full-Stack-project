@@ -1,9 +1,12 @@
-import IndividualLeaderboard from "../models/individual_leaderboard";
+import IndividualLeaderboard from "../models/individual_leaderboard.js";
 
-export async function updateLeaderboard(username, score) {
-  const user = await IndividualLeaderboard.findOne({ where: { username } });
+export async function updateIndividualLeaderboard(username, score, seasonId) {
+  const user = await IndividualLeaderboard.findOne({
+    where: { username, seasonId },
+  });
   if (!user) {
     const newUser = new IndividualLeaderboard({
+      seasonId,
       username,
       score,
     });
@@ -14,8 +17,9 @@ export async function updateLeaderboard(username, score) {
   }
 }
 
-export async function getLeaderboard(limit) {
+export async function getIndividualLeaderboard(limit, seasonId) {
   return await IndividualLeaderboard.findAll({
+    where: { seasonId },
     order: [["score", "DESC"]],
     limit,
   });

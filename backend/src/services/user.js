@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
 import { UserExistError } from "../errors/user.js";
+import { createPlayer } from "../services/player.js";
 
 /* FROM DATABASE */
 
@@ -38,6 +39,7 @@ export async function create(user) {
 
   try {
     await newUser.save();
+    createPlayer(user.username);
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
       throw new UserExistError();

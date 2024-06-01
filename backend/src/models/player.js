@@ -9,25 +9,20 @@ const sequelize = new Sequelize(
   `mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`
 );
 
-class IndividualLeaderboard extends Model {}
-
-IndividualLeaderboard.init(
+class Player extends Model {}
+Player.init(
   {
-    seasonId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
     },
-    score: {
+    teamId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   },
-  { sequelize, modelName: "individual_leaderboard" }
+  { sequelize, modelName: "players" }
 );
 
-export default IndividualLeaderboard;
+export default Player;

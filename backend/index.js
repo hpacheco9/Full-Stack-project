@@ -3,10 +3,14 @@ import dotenv from "dotenv";
 import userRoutes from "./src/routes/user.js";
 import bodyParser from "body-parser";
 import session from "express-session";
-import leaderboardRoutes from "./src/routes/leaderboard.js";
 import authRoutes from "./src/routes/auth.js";
 import questionRoutes from "./src/routes/question.js";
+import leaderboardRoutes from "./src/routes/leaderboard.js";
+import teamRoutes from "./src/routes/team.js";
+import playerRoutes from "./src/routes/player.js";
 import gameRoutes from "./src/routes/game.js";
+import seasonRoutes from "./src/routes/season.js";
+import adminRoutes from "./src/routes/admin.js";
 import { syncDatabase } from "./src/services/database.js";
 import { sessionStore } from "./src/services/database.js";
 
@@ -45,8 +49,12 @@ app.use(bodyParser.urlencoded());
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/question", questionRoutes);
-app.use("/leaderboards", leaderboardRoutes);
 app.use("/game", gameRoutes);
+app.use("/season", seasonRoutes);
+app.use("/team", teamRoutes);
+app.use("/leaderboard", leaderboardRoutes);
+app.use("/player", playerRoutes);
+app.use("/admin", adminRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

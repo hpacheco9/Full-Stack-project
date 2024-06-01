@@ -1,10 +1,13 @@
-import TeamLeaderboard from "../models/team_leaderboard_leaderboard";
+import TeamLeaderboard from "../models/team_leaderboard.js";
 
-export async function updateLeaderboard(username, score) {
-  const user = await TeamLeaderboard.findOne({ where: { username } });
+export async function updateTeamLeaderboard(teamName, score, seasonId) {
+  const user = await TeamLeaderboard.findOne({
+    where: { teamName, seasonId },
+  });
   if (!user) {
-    const newUser = new IndividualLeaderboard({
-      username,
+    const newUser = new TeamLeaderboard({
+      seasonId,
+      teamName,
       score,
     });
     await newUser.save();
@@ -14,8 +17,9 @@ export async function updateLeaderboard(username, score) {
   }
 }
 
-export async function getLeaderboard(limit) {
+export async function getTeamLeaderboard(limit, seasonId) {
   return await TeamLeaderboard.findAll({
+    where: { seasonId },
     order: [["score", "DESC"]],
     limit,
   });

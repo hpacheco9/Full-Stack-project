@@ -7,6 +7,10 @@ const gameSchema = new Schema({
     type: Number,
     required: true,
   },
+  seasonId: {
+    type: Number,
+    required: true,
+  },
   questionDescription: {
     type: String,
     required: true,

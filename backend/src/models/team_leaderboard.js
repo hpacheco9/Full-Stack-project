@@ -12,6 +12,10 @@ const sequelize = new Sequelize(
 class TeamLeaderboard extends Model {}
 TeamLeaderboard.init(
   {
+    seasonId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     teamName: {
       type: DataTypes.STRING,
       allowNull: false,

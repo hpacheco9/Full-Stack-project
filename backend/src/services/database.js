@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import User from "../models/user.js";
 import mongoose from "mongoose";
 import Admin from "../models/admin.js";
+import Player from "../models/player.js";
+import Team from "../models/team.js";
 import MySQLStore from "express-mysql-session";
 import session from "express-session";
 import IndividualLeaderboard from "../models/individual_leaderboard.js";
@@ -17,6 +19,8 @@ export async function syncDatabase() {
   await Admin.sync();
   await IndividualLeaderboard.sync();
   await TeamLeaderboard.sync();
+  await Player.sync();
+  await Team.sync();
 }
 
 export const options = {
