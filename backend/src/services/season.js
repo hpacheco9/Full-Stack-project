@@ -25,7 +25,7 @@ export async function validateGame(createdAtDate) {
     finalDate: { $gte: createdAtDate },
   });
   if (season.length === 0) {
-    return false;
+    return null;
   }
   return season;
 }

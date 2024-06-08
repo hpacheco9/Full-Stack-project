@@ -5,6 +5,7 @@ import {
   MultipleValidQuestionType,
   OneValidQuestionType,
   QuestionType,
+  difficulty,
 } from "../models/question.js";
 
 export async function getAllQuestions() {
@@ -13,37 +14,27 @@ export async function getAllQuestions() {
 
 export async function generateGameQuestions(providedDifficulty) {
   const questions = [];
-  if (providedDifficulty === "easy") {
-    const easyQuestions = await Question.aggregate()
-      .match({ difficulty: providedDifficulty })
-      .sample(21);
-    questions.push(easyQuestions);
+  if (providedDifficulty === difficulty.EASY) {
+    questions.push(await getQuestions(difficulty.EASY, 20));
     return questions;
-  } else if (providedDifficulty === "moderate") {
-    const easyQuestions = await Question.aggregate()
-      .match({ difficulty: "easy" })
-      .sample(10);
-    const mediumQuestions = await Question.aggregate()
-      .match({ difficulty: "moderate" })
-      .sample(10);
-    questions.push(easyQuestions);
-    questions.push(mediumQuestions);
-    return questions;
-  } else if (providedDifficulty === "hard") {
-    const easyQuestions = await Question.aggregate()
-      .match({ difficulty: "easy" })
-      .sample(5);
-    const mediumQuestions = await Question.aggregate()
-      .match({ difficulty: "moderate" })
-      .sample(5);
-    const hardQuestions = await Question.aggregate()
-      .match({ difficulty: "hard" })
-      .sample(10);
-    questions.push(easyQuestions);
-    questions.push(mediumQuestions);
-    questions.push(hardQuestions);
-    return questions;
+  } else if (providedDifficulty === difficulty.MODERATE) {
+    return (questions = [
+      ...(await getQuestions(difficulty.EASY, 10)),
+      ...(await getQuestions(difficulty.MODERATE, 10)),
+    ]);
+  } else if (providedDifficulty === difficulty.HARD) {
+    return (questions = [
+      ...(await getQuestions(difficulty.EASY, 5)),
+      ...(await getQuestions(difficulty.MODERATE, 5)),
+      ...(await getQuestions(difficulty.HARD, 10)),
+    ]);
   }
+}
+
+async function getQuestions(providedDifficulty, sampleSize) {
+  return await Question.aggregate()
+    .match({ difficulty: providedDifficulty })
+    .sample(sampleSize);
 }
 
 export async function seedQuestionTypes() {

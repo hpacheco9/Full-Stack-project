@@ -46,15 +46,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 // Routes
-app.use("/users", userRoutes);
-app.use("/auth", authRoutes);
-app.use("/question", questionRoutes);
-app.use("/game", gameRoutes);
-app.use("/season", seasonRoutes);
-app.use("/team", teamRoutes);
-app.use("/leaderboard", leaderboardRoutes);
-app.use("/player", playerRoutes);
-app.use("/admin", adminRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/question", questionRoutes);
+app.use("/api/game", gameRoutes);
+app.use("/api/season", seasonRoutes);
+app.use("/api/team", teamRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/player", playerRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

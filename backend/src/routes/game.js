@@ -10,7 +10,7 @@ const router = Router();
 const gameStartSchema = checkSchema({
   difficulty: {
     errorMessage: "Invalid difficulty",
-    isString: true,
+    isNumeric: true,
     notEmpty: true,
   },
   soloGameType: {
@@ -23,13 +23,13 @@ const gameStartSchema = checkSchema({
 router.post("/", [gameStartSchema, validateSchema], async (req, res) => {
   const { difficulty, soloGameType } = req.body;
   let entityName = "";
-  if (soloGameType === "true") {
+  if (soloGameType === true) {
     entityName = "Miguel";
   } else {
     entityName = "team_name";
   }
   const validSeason = await validateGame(new Date());
-  if (validSeason === false) {
+  if (!validSeason) {
     return res.status(400).send();
   }
   const questions = await generateGameQuestions(difficulty);

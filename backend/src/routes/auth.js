@@ -3,7 +3,6 @@ import { checkSchema } from "express-validator";
 import { validateSchema } from "../middlewares/validation.js";
 import { login } from "../services/auth.js";
 import { authGuard } from "../middlewares/authGuard.js";
-
 const router = Router();
 
 // Get user from session

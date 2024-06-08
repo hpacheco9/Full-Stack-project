@@ -7,6 +7,12 @@ const StringRequiredType = {
   required: true,
 };
 
+export const difficulty = Object.freeze({
+  EASY: 0,
+  MODERATE: 1,
+  HARD: 2,
+});
+
 export const BooleanQuestionType = "boolean";
 export const BlanksQuestionType = "blanks";
 export const OneValidQuestionType = "oneValid";
@@ -31,7 +37,7 @@ const questionSchema = new Schema({
     required: true,
   },
   difficulty: {
-    type: String,
+    type: Number,
     required: true,
   },
   options: [
@@ -49,11 +55,11 @@ const questionSchema = new Schema({
     type: Number,
     required: true,
     default: function () {
-      if (this.difficulty === "easy") {
+      if (this.difficulty === difficulty.EASY) {
         return 1;
-      } else if (this.difficulty === "medium") {
+      } else if (this.difficulty === difficulty.MODERATE) {
         return 2;
-      } else if (this.difficulty === "hard") {
+      } else if (this.difficulty === difficulty.HARD) {
         return 3;
       }
     },
