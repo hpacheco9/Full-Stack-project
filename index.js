@@ -6,15 +6,15 @@ import session from "express-session";
 import leaderboardRoutes from "./src/routes/leaderboard.js";
 import authRoutes from "./src/routes/auth.js";
 import questionRoutes from "./src/routes/question.js";
-import { syncDatabase } from "./src/services/database.js";
-import { sessionStore } from "./src/services/database.js";
+//import { syncDatabase } from "./src/services/database.js";
+/*import { sessionStore } from "./src/services/database.js";*/
 
 // Configure environment variables
 dotenv.config();
 const port = process.env.PORT || 8000;
 
 // Sync database
-syncDatabase();
+//syncDatabase();
 
 // Start express app
 const app = express();
@@ -27,14 +27,14 @@ app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
 // Configure session
-app.use(
+/*app.use(
   session({
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: false,
     store: sessionStore,
   })
-);
+);*/
 
 // Configure body parser
 app.use(bodyParser.json());

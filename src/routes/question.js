@@ -53,4 +53,10 @@ router.get("/m1", (req, res) => {
 });
 */
 
+router.get("/score", (req, res) => {
+  res.render("score", {
+    score: "189"
+  });
+})
+
 export default router;

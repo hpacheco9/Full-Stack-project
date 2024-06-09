@@ -1,11 +1,11 @@
-import dotenv from "dotenv";
+/*import dotenv from "dotenv";
 import User from "../models/user.js";
 import mongoose from "mongoose";
 import Admin from "../models/admin.js";
 import MySQLStore from "express-mysql-session";
-import session from "express-session";
+import session from "express-session";*/
 
-dotenv.config();
+/*dotenv.config();
 
 // Establish connection to the database using .env credentials
 const { DB, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
@@ -25,7 +25,7 @@ export const options = {
 const DBSessionStore = MySQLStore(session);
 export const sessionStore = new DBSessionStore(options);
 
-mongoose
+/*mongoose
   .connect(process.env.MONGO_DB)
   .then(() => {
     console.log("Connected to MongoDB");
@@ -33,4 +33,4 @@ mongoose
   .catch((err) => {
     console.log(err);
     process.exit(-2);
-  });
+  });*/
