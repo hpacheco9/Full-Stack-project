@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import DefaultLayout from "../layouts/DefaultLayout.jsx";
 import text from "../assets/images/text.png";
 import Image from "../components/Image.jsx";
+import backgroundDivided from "../assets/images/backgroundDivided.png";
 
 const Container = styled.div`
   display: flex;
@@ -83,7 +84,7 @@ export default function Login() {
   }, [user, loading, navigate]);
 
   return (
-    <DefaultLayout>
+    <DefaultLayout background={backgroundDivided}>
       <Container>
         <Image source={text} style={{ marginTop: "20%" }}></Image>
         <Header>Login</Header>
@@ -148,7 +149,7 @@ export default function Login() {
           )}
         </Formik>
         <Paragrafo>
-          <Anchor href="">Criar Conta</Anchor>
+          <Anchor href="/registo">Criar Conta</Anchor>
         </Paragrafo>
       </Container>
     </DefaultLayout>

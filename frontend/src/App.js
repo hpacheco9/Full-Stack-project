@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Question from "./pages/Pergunta_m1.jsx";
 import dlore from "./assets/images/dlore.png";
 import Regist from "./pages/Regist.jsx";
+import Endscreen from "./pages/Endscreen.jsx";
 
 const MainComponent = styled.div`
   background-color: #282c34;
@@ -54,11 +55,21 @@ function App() {
     },
     {
       path: "/pergunta",
-      element: <Question source={dlore} title={"Que skin é esta?"} />,
+      element: (
+        <Question
+          source={dlore}
+          title={"Que skin é esta?"}
+          answers={["Dlore", "Redline", "Asiimov", "Medusa"]}
+        />
+      ),
     },
     {
       path: "/registo",
       element: <Regist />,
+    },
+    {
+      path: "/endscreen",
+      element: <Endscreen score={"50 / 100"} />,
     },
   ]);
   return (

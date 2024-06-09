@@ -1,14 +1,14 @@
 import { styled } from "styled-components";
-import background from "../assets/images/background.jpg";
+import defaultBackground from "../assets/images/background.jpg";
 
 const Container = styled.div`
-  background-image: url(${background});
+  background-image: url(${(props) => props.background || defaultBackground});
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
 `;
 
-export default function DefaultLayout({ children }) {
-  return <Container>{children}</Container>;
+export default function DefaultLayout({ children, background }) {
+  return <Container background={background}>{children}</Container>;
 }

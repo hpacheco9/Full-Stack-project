@@ -6,6 +6,7 @@ import Image from "../components/Image";
 import text from "../assets/images/text.png";
 import * as Yup from "yup";
 import { regist } from "../services/Regist";
+import backgroundDivided from "../assets/images/backgroundDivided.png";
 
 const Container = styled.div`
   display: flex;
@@ -73,7 +74,7 @@ const Anchor = styled.a`
 export default function Regist() {
   const navigate = useNavigate();
   return (
-    <DefaultLayout>
+    <DefaultLayout background={backgroundDivided}>
       <Container>
         <Image source={text} style={{ marginTop: "20%" }}></Image>
         <Header>Registo</Header>
@@ -190,7 +191,7 @@ export default function Regist() {
           )}
         </Formik>
         <Paragrafo>
-          <Anchor href="">Fazer Login</Anchor>
+          <Anchor href="/login">Fazer Login</Anchor>
         </Paragrafo>
       </Container>
     </DefaultLayout>
