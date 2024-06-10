@@ -13,7 +13,7 @@ import dlore from "./assets/images/dlore.png";
 import Regist from "./pages/Regist.jsx";
 import Endscreen from "./pages/Endscreen.jsx";
 import Criar from "./pages/Criar.jsx";
-
+import Leaderboard from "./pages/Leaderboard.jsx";
 
 const MainComponent = styled.div`
   background-color: #282c34;
@@ -75,8 +75,12 @@ function App() {
     },
     {
       path: "/criar",
-      element: <Criar/>
-    }
+      element: <Criar />,
+    },
+    {
+      path: "/leaderboard",
+      element: <Leaderboard />,
+    },
   ]);
   return (
     <AuthContext.Provider value={{ user, setUser, loading }}>

@@ -2,7 +2,7 @@ import DefaultLayout from "../layouts/DefaultLayout";
 import { styled } from "styled-components";
 import background from "../assets/images/background.jpg";
 
-const Header = styled.h1`
+const Header = styled.div`
   left: 14px;
   top: 400px;
   position: absolute;
@@ -13,7 +13,6 @@ const CounterStrike = styled.span`
   font-size: 96px;
   font-family: Counter-Strike;
   font-weight: 500;
-  word-wrap: break-word;
 `;
 
 const Quiz = styled.span`
@@ -69,7 +68,7 @@ export default function Menu() {
           <Anchor href="">
             <ListItem>EQUIPA</ListItem>
           </Anchor>
-          <Anchor href="">
+          <Anchor href="/leaderboard">
             <ListItem>LEADERBOARDS</ListItem>
           </Anchor>
           <Anchor href="/login">
