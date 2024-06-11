@@ -97,10 +97,10 @@ export default function Login() {
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             const user = await login(values.username, values.password);
-            console.log(user);
+
             if (user) {
               setUser(user);
-              navigate("/home");
+              navigate("/menu");
             } else {
               // TODO: Show a error message
             }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getLeaderboard } from "../services/Leaderboard";
 import Video from "../components/Video.jsx";
 import styled from "styled-components";
@@ -41,8 +41,8 @@ const Inputs = styled.input`
   align-items: center;
 
   &:hover {
-    background-color: black; /* Change background color to black when hovered */
-    color: white; /* Change text color to white when hovered */
+    background-color: black;
+    color: white;
   }
 `;
 
@@ -58,27 +58,42 @@ const Title = styled.h1`
   position: relative;
 `;
 
-export default function Leaderboard({ soloGameType }) {
-  // const records = await getLeaderboard({ soloGameType });
+export default function Leaderboard({ soloGameType, seasonId }) {
+  const [records, setRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
+
+  useEffect(() => {
+    const fetchRecords = async () => {
+      try {
+        const data = await getLeaderboard(soloGameType, seasonId);
+        setRecords(data);
+      } catch (error) {
+        console.error("Error fetching leaderboard data:", error);
+      }
+    };
+    fetchRecords();
+  }, [soloGameType, seasonId]);
+
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const records = [
-    { username: "João", score: 100 },
-    { username: "Maria", score: 90 },
-    { username: "Ana", score: 80 },
-    { username: "Pedro", score: 70 },
-    { username: "Carlos", score: 60 },
-    { username: "Marta", score: 50 },
-    { username: "Miguel", score: 40 },
-    { username: "Rita", score: 30 },
-    { username: "Sofia", score: 20 },
-    { username: "Inês", score: 10 },
-  ];
-  const [column1, column2] = Object.keys(records[0]);
   const currentRecords = records.slice(firstIndex, lastIndex);
   const numberOfPages = Math.ceil(records.length / recordsPerPage);
+
+  const prePage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage < numberOfPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+  const columns = records.length > 0 ? Object.keys(records[0]) : [];
+  const nameColumn = columns[1];
+
   return (
     <>
       <Video />
@@ -86,10 +101,8 @@ export default function Leaderboard({ soloGameType }) {
         <a href="/menu" style={{ marginLeft: "-93%", marginTop: "-6%" }}>
           <img
             src={arrow}
-            style={{
-              width: "46px",
-              height: "46px",
-            }}
+            style={{ width: "46px", height: "46px" }}
+            alt="arrow"
           />
         </a>
         <Title>Leaderboard</Title>
@@ -102,16 +115,18 @@ export default function Leaderboard({ soloGameType }) {
           }}
         >
           <thead>
-            <th>Posição</th>
-            <th>Nome</th>
-            <th>Pontuação</th>
+            <tr>
+              <th>Posição</th>
+              <th>Nome</th>
+              <th>Pontuação</th>
+            </tr>
           </thead>
           <tbody>
             {currentRecords.map((record, i) => (
               <tr key={i}>
                 <td>{firstIndex + i + 1}</td>
-                <td>{record[column1]}</td>
-                <td>{record[column2]}</td>
+                <td>{record[nameColumn]}</td>
+                <td>{record.score}</td>
               </tr>
             ))}
           </tbody>
@@ -119,24 +134,10 @@ export default function Leaderboard({ soloGameType }) {
         <nav>
           <Options>
             <Inputs onClick={prePage} value={"Prev"} type={"text"}></Inputs>
-            <Inputs
-              className="page-link"
-              onClick={nextPage}
-              value={"Next"}
-              type={"text"}
-            ></Inputs>
+            <Inputs onClick={nextPage} value={"Next"} type={"text"}></Inputs>
           </Options>
         </nav>
       </ContainerStyled>
     </>
   );
-
-  function prePage() {
-    if (currentPage !== 1) {
-      setCurrentPage((prev) => prev - 1);
-    }
-  }
-  function nextPage() {
-    if (currentPage !== numberOfPages) setCurrentPage((prev) => prev + 1);
-  }
 }

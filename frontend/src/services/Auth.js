@@ -6,7 +6,6 @@ export async function login(username, password) {
     { username, password },
     { withCredentials: true }
   );
-
   if (response.status === 200) {
     return await get();
   }
@@ -16,7 +15,7 @@ export async function login(username, password) {
 
 export async function get() {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth`, {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/`, {
       withCredentials: true,
     });
 

@@ -79,7 +79,7 @@ function App() {
     },
     {
       path: "/leaderboard",
-      element: <Leaderboard />,
+      element: <Leaderboard soloGameType={true} seasonId={1} />,
     },
   ]);
   return (

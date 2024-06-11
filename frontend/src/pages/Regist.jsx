@@ -152,7 +152,7 @@ export default function Regist() {
                   name="firstName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.email}
+                  value={values.firstName}
                 />
                 <InputErrorLabel>
                   {errors.firstName && touched.firstName && errors.firstName}
@@ -165,7 +165,7 @@ export default function Regist() {
                   name="lastName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.email}
+                  value={values.lastName}
                 />
                 <InputErrorLabel>
                   {errors.lastName && touched.lastName && errors.lastName}
