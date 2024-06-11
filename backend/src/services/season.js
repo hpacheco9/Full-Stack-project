@@ -29,3 +29,15 @@ export async function validateGame(createdAtDate) {
   }
   return season;
 }
+
+export async function getCurrentSeasonId() {
+  const currentDate = new Date();
+  const season = await Season.find({
+    inicialDate: { $lte: currentDate },
+    finalDate: { $gte: currentDate },
+  });
+  if (season.length === 0) {
+    return null;
+  }
+  return season[0].seasonId;
+}

@@ -29,7 +29,7 @@ router.post("/", [loginSchema, validateSchema], async (req, res) => {
   const { username, password } = req.body;
   const user = await login(username, password);
   if (!user) {
-    return res.status(401).send();
+    return null;
   }
   // Store user in session
   req.session.user = user;

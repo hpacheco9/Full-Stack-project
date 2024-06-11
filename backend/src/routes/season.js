@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createSeason } from "../services/season.js";
+import { createSeason, getCurrentSeasonId } from "../services/season.js";
 
 const router = Router();
 
@@ -19,6 +19,11 @@ router.post("/", (req, res) => {
   }
   createSeason(seasonName, inicialDate, finalDate);
   res.json({});
+});
+
+router.get("/", async (req, res) => {
+  const currentSeasonId = await getCurrentSeasonId();
+  return res.json({ currentSeasonId });
 });
 
 export default router;
