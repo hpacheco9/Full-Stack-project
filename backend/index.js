@@ -5,10 +5,6 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import authRoutes from "./src/routes/auth.js";
 import questionRoutes from "./src/routes/question.js";
-<<<<<<< HEAD:index.js
-//import { syncDatabase } from "./src/services/database.js";
-/*import { sessionStore } from "./src/services/database.js";*/
-=======
 import leaderboardRoutes from "./src/routes/leaderboard.js";
 import teamRoutes from "./src/routes/team.js";
 import playerRoutes from "./src/routes/player.js";
@@ -17,14 +13,14 @@ import seasonRoutes from "./src/routes/season.js";
 import adminRoutes from "./src/routes/admin.js";
 import { syncDatabase } from "./src/services/database.js";
 import { sessionStore } from "./src/services/database.js";
->>>>>>> 1f27bf2d656c77457cd290c14f9c92f63fa2cc6e:backend/index.js
+import cors from "cors";
 
 // Configure environment variables
 dotenv.config();
 const port = process.env.PORT || 8000;
 
 // Sync database
-//syncDatabase();
+syncDatabase();
 
 // Start express app
 const app = express();
@@ -37,14 +33,22 @@ app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
 // Configure session
-/*app.use(
+app.use(
   session({
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: false,
     store: sessionStore,
   })
-);*/
+);
+
+// CORS
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONTEND_URL,
+  })
+);
 
 // Configure body parser
 app.use(bodyParser.json());

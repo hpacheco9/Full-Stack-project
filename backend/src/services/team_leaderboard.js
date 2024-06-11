@@ -17,10 +17,9 @@ export async function updateTeamLeaderboard(teamName, score, seasonId) {
   }
 }
 
-export async function getTeamLeaderboard(limit, seasonId) {
+export async function getTeamLeaderboard(seasonId) {
   return await TeamLeaderboard.findAll({
     where: { seasonId },
     order: [["score", "DESC"]],
-    limit,
   });
 }

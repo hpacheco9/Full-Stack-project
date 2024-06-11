@@ -32,7 +32,6 @@ router.post("/", [loginSchema, validateSchema], async (req, res) => {
     return res.status(401).send();
   }
   // Store user in session
-  res.render("menu");
   req.session.user = user;
   res.send();
 });

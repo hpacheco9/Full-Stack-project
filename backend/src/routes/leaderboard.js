@@ -11,15 +11,25 @@ import {
 const router = Router();
 
 router.get("/individual", async (req, res) => {
-  const { seasonId, limit } = req.body;
-  const leaderboard = await getIndividualLeaderboard(limit, seasonId);
-  res.json(leaderboard);
+  const { seasonId } = req.query;
+  try {
+    const leaderboard = await getIndividualLeaderboard(seasonId);
+    return res.json(leaderboard);
+  } catch (error) {
+    console.error("Error fetching individual leaderboard:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 router.get("/team", async (req, res) => {
-  const { seasonId, limit } = req.body;
-  const leaderboard = await getTeamLeaderboard(limit, seasonId);
-  res.json(leaderboard);
+  const { seasonId } = req.query;
+  try {
+    const leaderboard = await getTeamLeaderboard(seasonId);
+    return res.json(leaderboard);
+  } catch (error) {
+    console.error("Error fetching team leaderboard:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 router.post("/individual", async (req, res) => {

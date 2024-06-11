@@ -17,10 +17,9 @@ export async function updateIndividualLeaderboard(username, score, seasonId) {
   }
 }
 
-export async function getIndividualLeaderboard(limit, seasonId) {
+export async function getIndividualLeaderboard(seasonId) {
   return await IndividualLeaderboard.findAll({
     where: { seasonId },
     order: [["score", "DESC"]],
-    limit,
   });
 }
