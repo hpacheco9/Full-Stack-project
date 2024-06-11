@@ -102,7 +102,6 @@ export default function Login() {
               setUser(user);
               navigate("/menu");
             } else {
-              // TODO: Show a error message
             }
           }}
         >

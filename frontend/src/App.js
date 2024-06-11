@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Menu from "./pages/Menu.jsx";
-import Index from "./pages/Index.jsx";
 import styled from "styled-components";
 import { AuthContext } from "./Context.js";
 import { useEffect, useState } from "react";
@@ -37,7 +36,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Index />,
+      element: <Login />,
     },
     {
       path: "/login",
@@ -79,7 +78,7 @@ function App() {
     },
     {
       path: "/leaderboard",
-      element: <Leaderboard soloGameType={true} seasonId={1} />,
+      element: <Leaderboard />,
     },
   ]);
   return (

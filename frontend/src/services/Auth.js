@@ -9,8 +9,6 @@ export async function login(username, password) {
   if (response.status === 200) {
     return await get();
   }
-
-  return null;
 }
 
 export async function get() {
@@ -22,6 +20,7 @@ export async function get() {
     if (response.status === 200) {
       return response.data;
     }
+    return null;
   } catch {}
 
   return null;

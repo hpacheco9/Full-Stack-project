@@ -1,6 +1,7 @@
 import DefaultLayout from "../layouts/DefaultLayout";
 import { styled } from "styled-components";
 import background from "../assets/images/background.jpg";
+import { logout } from "../services/Auth";
 
 const Header = styled.div`
   left: 14px;
@@ -72,7 +73,7 @@ export default function Menu() {
             <ListItem>LEADERBOARDS</ListItem>
           </Anchor>
           <Anchor href="/login">
-            <ListItem>LOGOUT</ListItem>
+            <ListItem onClick={logout}>LOGOUT</ListItem>
           </Anchor>
         </UnorderedList>
       </Options>

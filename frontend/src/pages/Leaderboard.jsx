@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getLeaderboard } from "../services/Leaderboard";
+import { getLeaderboard, getCurrentSeasonId } from "../services/Leaderboard";
 import Video from "../components/Video.jsx";
 import styled from "styled-components";
 import arrow from "../assets/images/arrow.png";
@@ -28,7 +28,7 @@ const Options = styled.div`
 const Inputs = styled.input`
   padding: 10px 20px;
   font-size: large;
-  height: 20px;
+  height: 40px;
   cursor: pointer;
   background-color: white;
   color: black;
@@ -58,10 +58,46 @@ const Title = styled.h1`
   position: relative;
 `;
 
-export default function Leaderboard({ soloGameType, seasonId }) {
+const Select = styled.select`
+  padding: 10px;
+  font-size: large;
+  height: 50px;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+  width: 200px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  z-index: 1;
+`;
+
+export default function Leaderboard() {
   const [records, setRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
+  const [soloGameType, setSoloGameType] = useState(true);
+  const [seasonId, setSeasonId] = useState(null);
+  function handleChange(event) {
+    if (event.target.value === "individual") {
+      setSoloGameType(true);
+    } else {
+      setSoloGameType(false);
+    }
+  }
+  useEffect(() => {
+    const fetchSeasonId = async () => {
+      try {
+        const seasonId = await getCurrentSeasonId();
+        setSeasonId(seasonId);
+      } catch (error) {
+        console.error("Error fetching current season ID:", error);
+      }
+    };
+    fetchSeasonId();
+  }, []);
 
   useEffect(() => {
     const fetchRecords = async () => {
@@ -106,6 +142,13 @@ export default function Leaderboard({ soloGameType, seasonId }) {
           />
         </a>
         <Title>Leaderboard</Title>
+        <Select
+          onChange={handleChange}
+          style={{ marginBottom: "1%", fontSize: "20px" }}
+        >
+          <option value="individual">Individual</option>
+          <option value="team">Team</option>
+        </Select>
         <table
           className="table"
           style={{
@@ -133,8 +176,8 @@ export default function Leaderboard({ soloGameType, seasonId }) {
         </table>
         <nav>
           <Options>
-            <Inputs onClick={prePage} value={"Prev"} type={"text"}></Inputs>
-            <Inputs onClick={nextPage} value={"Next"} type={"text"}></Inputs>
+            <Inputs onClick={prePage} value={"Prev"} type={"button"}></Inputs>
+            <Inputs onClick={nextPage} value={"Next"} type={"button"}></Inputs>
           </Options>
         </nav>
       </ContainerStyled>
