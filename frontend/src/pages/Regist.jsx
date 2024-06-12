@@ -7,6 +7,12 @@ import text from "../assets/images/text.png";
 import * as Yup from "yup";
 import { regist } from "../services/Regist";
 import backgroundDivided from "../assets/images/backgroundDivided.png";
+import {
+  Input,
+  InputContainer,
+  InputErrorLabel,
+  SubmitButton,
+} from "../components/Form";
 
 const Container = styled.div`
   display: flex;
@@ -14,33 +20,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 30%;
-`;
-
-const Input = styled.input`
-  display: flex;
-  flex-direction: column;
-  height: 40px;
-  width: 300px;
-  border: none;
-`;
-
-const InputErrorLabel = styled.label`
-  color: red;
-  font-size: 12px;
-`;
-
-const SubmitButton = styled.button`
-  height: 40px;
-  width: 300px;
-  border: none;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  margin-bottom: 20px;
 `;
 
 const Header = styled.h1`

@@ -13,6 +13,9 @@ import Regist from "./pages/Regist.jsx";
 import Endscreen from "./pages/Endscreen.jsx";
 import Criar from "./pages/Criar.jsx";
 import Leaderboard from "./pages/Leaderboard.jsx";
+import Team from "./pages/Team.jsx";
+import Member from "./pages/MemberPage.jsx";
+import Captain from "./pages/CaptainPage.jsx";
 
 const MainComponent = styled.div`
   background-color: #282c34;
@@ -79,6 +82,30 @@ function App() {
     {
       path: "/leaderboard",
       element: <Leaderboard />,
+    },
+    {
+      path: "/equipa",
+      element: (
+        <ProtectedRoute>
+          <Team />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/member",
+      element: (
+        <ProtectedRoute>
+          <Member />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/captain",
+      element: (
+        <ProtectedRoute>
+          <Captain />
+        </ProtectedRoute>
+      ),
     },
   ]);
   return (

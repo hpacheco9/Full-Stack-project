@@ -66,7 +66,7 @@ export default function Menu() {
           <Anchor href="">
             <ListItem>CRIAR JOGO</ListItem>
           </Anchor>
-          <Anchor href="">
+          <Anchor href="/equipa">
             <ListItem>EQUIPA</ListItem>
           </Anchor>
           <Anchor href="/leaderboard">
