@@ -63,7 +63,7 @@ export default function Menu() {
       </Header>
       <Options>
         <UnorderedList>
-          <Anchor href="">
+          <Anchor href="/criar">
             <ListItem>CRIAR JOGO</ListItem>
           </Anchor>
           <Anchor href="/equipa">

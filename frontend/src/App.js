@@ -16,6 +16,7 @@ import Leaderboard from "./pages/Leaderboard.jsx";
 import Team from "./pages/Team.jsx";
 import Member from "./pages/MemberPage.jsx";
 import Captain from "./pages/CaptainPage.jsx";
+import Game from "./pages/Game.jsx";
 
 const MainComponent = styled.div`
   background-color: #282c34;
@@ -106,6 +107,10 @@ function App() {
           <Captain />
         </ProtectedRoute>
       ),
+    },
+    {
+      path: "/game",
+      element: <Game />,
     },
   ]);
   return (

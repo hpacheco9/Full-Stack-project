@@ -8,6 +8,14 @@ export const Input = styled.input`
   border: none;
 `;
 
+export const RadioInput = styled.input`
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+  width: 100px;
+  border: none;
+`;
+
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
