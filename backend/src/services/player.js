@@ -17,3 +17,12 @@ export async function createPlayer(username) {
 export async function getPlayer(username) {
   return await Player.findByPk(username);
 }
+
+export async function getTeamId(username) {
+  const player = await getPlayer(username);
+  if (!player) {
+    console.log(`jogador ${username} não existe`);
+    return null;
+  }
+  return player.teamId;
+}

@@ -35,8 +35,22 @@ export async function getPlayers(providedTeamId) {
   });
 }
 
-export async function getTeam(providedTeamName) {
+export async function getTeam(providedId) {
   return await Team.findAll({
-    where: { teamName: providedTeamName },
+    where: { teamId: providedId },
   });
+}
+
+export async function checkCaptain(username) {
+  const team = await Team.findOne({ where: { captain: username } });
+  if (team) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export async function removePlayer(username) {
+  const player = await Player.findByPk(username);
+  await player.update({ teamId: null });
 }
