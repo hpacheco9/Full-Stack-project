@@ -1,118 +1,49 @@
-import React, { useState, useEffect } from "react";
-import Video from "../components/Video.jsx";
-import styled from "styled-components";
 import arrow from "../assets/images/arrow.png";
+import Video from "../components/Video.jsx";
+import { ContainerStyled } from "../components/ContainerStyled";
+import { Title } from "../components/Title";
+import { useState, useEffect, useContext } from "react";
+import { getTeam, getTeamPlayers } from "../services/Team";
+import { AuthContext } from "../Context";
 
-const ContainerStyled = styled.div`
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100%;
-  top: 0;
-  left: 0;
-`;
-
-const Options = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-rows: minmax(100px, auto);
-  gap: 20px;
-  margin-top: 20px;
-`;
-
-const Inputs = styled.input`
-  padding: 10px 20px;
-  font-size: large;
-  height: 40px;
-  cursor: pointer;
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-  width: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background-color: black;
-    color: white;
-  }
-`;
-
-const Title = styled.h1`
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 64px;
-  font-family: Counter-Strike;
-  font-weight: 500;
-  z-index: 1;
-  position: relative;
-`;
-
-const Select = styled.select`
-  padding: 10px;
-  font-size: large;
-  height: 50px;
-  cursor: pointer;
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-  width: 200px;
-  margin-bottom: 20px;
-  font-size: 20px;
-  z-index: 1;
-`;
-
-export default function Member() {
-  return (
-    <>
-      <h1>Member</h1>
-    </>
-  );
-  /*
-  const [records, setRecords] = useState([]);
+export default function CaptainPage() {
+  const [teamRecord, setTeamRecord] = useState([]);
+  const { user } = useContext(AuthContext);
+  const [players, setPlayers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [seasonId, setSeasonId] = useState(null);
-  useEffect(() => {
-    const fetchSeasonId = async () => {
-      try {
-        const seasonId = await getCurrentSeasonId();
-        setSeasonId(seasonId);
-      } catch (error) {
-        console.error("Error fetching current season ID:", error);
-      }
-    };
-    fetchSeasonId();
-  }, []);
+  const recordsPerPage = 5;
 
   useEffect(() => {
-    const fetchRecords = async () => {
+    const fetchTeam = async () => {
       try {
-        const data = await getLeaderboard(soloGameType, seasonId);
-        setRecords(data);
+        const data = await getTeam(user?.username);
+        setTeamRecord(data);
       } catch (error) {
-        console.error("Error fetching leaderboard data:", error);
+        console.error("Error fetching team data:", error);
       }
     };
-    fetchRecords();
-  }, [soloGameType, seasonId]);
+    if (user?.username) {
+      fetchTeam();
+    }
+  }, [user?.username]);
+
+  useEffect(() => {
+    const fetchTeamPlayers = async () => {
+      try {
+        if (teamRecord.length > 0) {
+          const data = await getTeamPlayers(teamRecord[0].teamId);
+          setPlayers(data);
+        }
+      } catch (error) {
+        console.error("Error fetching team players:", error);
+      }
+    };
+    fetchTeamPlayers();
+  }, [teamRecord]);
 
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const currentRecords = records.slice(firstIndex, lastIndex);
-  const numberOfPages = Math.ceil(records.length / recordsPerPage);
-  const columns = records.length > 0 ? Object.keys(records[0]) : [];
-  const nameColumn = columns[1];
+  const currentRecords = players.slice(firstIndex, lastIndex);
 
   return (
     <>
@@ -125,14 +56,12 @@ export default function Member() {
             alt="arrow"
           />
         </a>
-        <Title>{record.TeamName}</Title>
+        <Title>
+          {teamRecord.length > 0 ? teamRecord[0].teamName : "Loading..."}
+        </Title>
         <table
           className="table"
-          style={{
-            borderSpacing: 20,
-            fontSize: 30,
-            textAlign: "center",
-          }}
+          style={{ borderSpacing: 20, fontSize: 30, textAlign: "center" }}
         >
           <thead>
             <tr>
@@ -141,10 +70,14 @@ export default function Member() {
             </tr>
           </thead>
           <tbody>
-            {currentRecords.map((record, i) => (
+            {currentRecords.map((player, i) => (
               <tr key={i}>
-                <td>{record[nameColumn]}</td>
-                <td>{record.role}</td>
+                <td>{player.username}</td>
+                <td>
+                  {player.username === teamRecord[0].captain
+                    ? "Captain"
+                    : "Member"}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -152,5 +85,4 @@ export default function Member() {
       </ContainerStyled>
     </>
   );
-  */
 }

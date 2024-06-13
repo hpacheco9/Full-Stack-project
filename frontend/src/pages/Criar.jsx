@@ -7,6 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { RadioInput, SubmitButton } from "../components/Form";
+import { generateGame } from "../services/Game";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../Context";
+import { getTeam } from "../services/Team";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -42,6 +46,55 @@ const LabelContainer = styled.div`
 
 export default function Criar() {
   const navigate = useNavigate();
+  const [game, setGame] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const { user } = useContext(AuthContext);
+  const [isLoading, setLoading] = useState(false);
+  const [difficulty, setDifficulty] = useState("0");
+  const [teamRecord, setTeamRecord] = useState([]);
+  const [modeBool, setMode] = useState(true);
+
+  // Effect to fetch team data after form submission
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const data = await getTeam(user?.username);
+        setTeamRecord(data);
+      } catch (error) {
+        console.error("Error fetching team data:", error);
+      }
+    };
+
+    if (user?.username) {
+      fetchTeam();
+    }
+  }, [user?.username]);
+
+  const handleFormSubmit = async (values) => {
+    const difficultyInt = parseInt(values.difficulty, 10);
+    const modeBool = values.mode === "true";
+    setMode(modeBool);
+    setDifficulty(values.difficulty);
+    if (teamRecord.length > 0) {
+      try {
+        setLoading(true);
+        const { game, questions } = await generateGame(
+          modeBool ? user?.username : teamRecord[0].teamName,
+          difficultyInt
+        );
+        setGame(game);
+        setQuestions(questions);
+        setLoading(false);
+
+        navigate("/game", {
+          state: { game, questions },
+        });
+      } catch (error) {
+        console.error("Error fetching game data:", error);
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <DefaultLayout>
@@ -61,20 +114,12 @@ export default function Criar() {
       </span>
       <Formik
         initialValues={{ difficulty: "0", mode: "true" }}
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(true);
-          const difficultyInt = parseInt(values.difficulty);
-          const modeBool = values.mode === "true";
-          console.log({ difficulty: difficultyInt, mode: modeBool });
-          navigate("/game", {
-            state: { difficulty: difficultyInt, mode: modeBool },
-          });
-        }}
+        onSubmit={handleFormSubmit}
         validationSchema={Yup.object({
-          difficulty: Yup.number()
+          difficulty: Yup.string()
             .required("Dificuldade é obrigatória")
-            .oneOf([0, 1, 2], "Dificuldade inválida"),
-          mode: Yup.boolean().required("Modo é obrigatório"),
+            .oneOf(["0", "1", "2"], "Dificuldade inválida"),
+          mode: Yup.string().required("Modo é obrigatório"),
         })}
       >
         {({ values, handleChange, handleSubmit, isSubmitting }) => (
@@ -139,7 +184,7 @@ export default function Criar() {
             </LabelContainer>
             <SubmitButton
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
               style={{
                 width: "50px",
                 height: "50px",
