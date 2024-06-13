@@ -13,22 +13,24 @@ export async function getAllQuestions() {
 }
 
 export async function generateGameQuestions(providedDifficulty) {
-  const questions = [];
+  let questions = [];
+
   if (providedDifficulty === difficulty.EASY) {
-    questions.push(await getQuestions(difficulty.EASY, 20));
-    return questions;
+    questions = await Promise.all([getQuestions(difficulty.EASY, 20)]);
   } else if (providedDifficulty === difficulty.MODERATE) {
-    return (questions = [
-      ...(await getQuestions(difficulty.EASY, 10)),
-      ...(await getQuestions(difficulty.MODERATE, 10)),
+    questions = await Promise.all([
+      getQuestions(difficulty.EASY, 10),
+      getQuestions(difficulty.MODERATE, 10),
     ]);
   } else if (providedDifficulty === difficulty.HARD) {
-    return (questions = [
-      ...(await getQuestions(difficulty.EASY, 5)),
-      ...(await getQuestions(difficulty.MODERATE, 5)),
-      ...(await getQuestions(difficulty.HARD, 10)),
+    questions = await Promise.all([
+      getQuestions(difficulty.EASY, 5),
+      getQuestions(difficulty.MODERATE, 5),
+      getQuestions(difficulty.HARD, 10),
     ]);
   }
+
+  return questions.flat();
 }
 
 async function getQuestions(providedDifficulty, sampleSize) {
@@ -51,14 +53,15 @@ export async function seedQuestionTypes() {
   }
 }
 
-export async function validateAwnser(questionDesciption, awnser) {
+export async function validateAnswer(questionDesciption, awnser) {
   const question = await Question.findOne({ description: questionDesciption });
   const options = question.options;
   for (const option of options) {
-    if (option.correct && option.title === awnser) {
-      return question.points;
-    } else {
-      return 0;
+    if (option.title === awnser) {
+      if (option.correct) {
+        return question.points;
+      }
     }
   }
+  return 0;
 }

@@ -1,25 +1,54 @@
 import Game from "../models/game.js";
-import { validateAwnser } from "./question.js";
+import { validateAnswer } from "./question.js";
 
 export async function updateGame(
   providedGameId,
   questionDescription,
   providedAnswer
 ) {
-  const points = validateAwnser(questionDescription, providedAnswer);
-  await Game.updateOne(providedGameId, questionDescription, {
-    answer: providedAnswer,
-    points: points,
-  });
+  try {
+    var points = 0;
+    var concatenatedAnswer = "";
+
+    if (Array.isArray(providedAnswer)) {
+      for (const answer of providedAnswer) {
+        points = await validateAnswer(questionDescription, answer);
+        concatenatedAnswer += answer + ", "; // Adjust as needed for your specific format
+      }
+      concatenatedAnswer = concatenatedAnswer.slice(0, -2); // Remove the trailing comma and space
+    } else {
+      points = await validateAnswer(questionDescription, providedAnswer);
+      concatenatedAnswer = providedAnswer;
+    }
+
+    await Game.updateOne(
+      { gameId: providedGameId, questionDescription },
+      {
+        $set: {
+          answer: concatenatedAnswer,
+          points,
+        },
+      }
+    );
+  } catch (error) {
+    console.error(
+      `Error updating game with ID ${providedGameId} for question ${questionDescription}:`,
+      error
+    );
+  }
 }
 
 export async function getGameResult(providedGameId) {
-  const game = await Game.find({ gameId: providedGameId });
-  let totalPoints = 0;
-  for (const points of game.points) {
-    totalPoints += points;
+  try {
+    const games = await Game.find({ gameId: providedGameId });
+
+    const totalPoints = games.reduce((total, game) => total + game.points, 0);
+
+    return totalPoints;
+  } catch (error) {
+    console.error("Error fetching game result:", error);
+    throw error;
   }
-  return totalPoints;
 }
 
 export async function getNextGameId() {
@@ -31,20 +60,35 @@ export async function getNextGameId() {
 }
 
 export async function createGame(gameId, seasonId, questionsArray, entityName) {
-  const answer = "awnser";
+  const answer = "answer";
   const points = 0;
-  for (const array of questionsArray) {
-    for (const question of array) {
-      const questionDescription = question.description;
+  const gameArray = [];
+
+  try {
+    if (!Array.isArray(questionsArray) || questionsArray.length === 0) {
+      throw new Error("Invalid questionsArray format or empty array.");
+    }
+
+    for (const question of questionsArray) {
+      const { description } = question;
+
       const game = new Game({
         gameId,
         seasonId,
-        questionDescription,
+        questionDescription: description,
         entityName,
         answer,
         points,
       });
+
       await game.save();
+
+      gameArray.push(game);
     }
+
+    return gameArray;
+  } catch (error) {
+    console.error("Error creating game:", error);
+    throw error;
   }
 }
