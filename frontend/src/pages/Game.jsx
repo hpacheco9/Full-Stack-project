@@ -145,7 +145,7 @@ function QuestionHeader({ question, children }) {
   return (
     <>
       <ContainerStyled>
-        <img src={text} alt="question-image" style={{ marginBottom: "5%" }} />
+        <img src={text} alt="question" style={{ marginBottom: "5%" }} />
         <p style={{ fontSize: "30px", marginBottom: "40px" }}>
           {question.description}
         </p>

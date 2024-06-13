@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 export const Paragrafo = styled.label`
   color: white;
   font-size: 30px;
