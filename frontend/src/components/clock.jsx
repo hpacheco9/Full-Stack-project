@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 const P = styled.p`
   font-family: "Quantico", sans-serif;
@@ -9,8 +9,7 @@ const P = styled.p`
   justify-content: center;
 `;
 
-export default function Clock() {
-  const [count, setCount] = useState(30);
+export default function Clock({ count, setCount }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prevCount) => {
@@ -24,7 +23,7 @@ export default function Clock() {
     }, 1000); // 1000 milliseconds = 1 second
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, []);
+  }, [setCount]);
 
   return <P>{count}</P>;
 }

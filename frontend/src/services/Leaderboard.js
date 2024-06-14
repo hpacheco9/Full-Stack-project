@@ -35,3 +35,33 @@ export async function getCurrentSeasonId() {
     return null;
   }
 }
+
+export async function updateIndividualLeaderboard(entityName, score, seasonId) {
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/leaderboard/individual`,
+      { entityName, score, seasonId },
+      { withCredentials: true }
+    );
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error updating individual leaderboard:", error);
+  }
+}
+
+export async function updateTeamLeaderboard(entityName, score, seasonId) {
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/leaderboard/team`,
+      { entityName, score, seasonId },
+      { withCredentials: true }
+    );
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error updating team leaderboard:", error);
+  }
+}

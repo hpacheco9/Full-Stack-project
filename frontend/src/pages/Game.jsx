@@ -9,7 +9,12 @@ import { Anchor } from "../components/Anchor";
 import { Title } from "../components/Title";
 import { Paragrafo } from "../components/Paragrafo";
 import { SubmitButton } from "../components/Form";
-import { updateGame, getGameResult } from "../services/Game.js";
+import { updateGame } from "../services/Game.js";
+import Clock from "../components/clock.jsx";
+import {
+  updateIndividualLeaderboard,
+  updateTeamLeaderboard,
+} from "../services/Leaderboard.js";
 
 const Inputs = styled.input`
   padding: 10px 20px;
@@ -29,64 +34,72 @@ const Inputs = styled.input`
   ${(props) =>
     props.clicked &&
     css`
-      background-color: black; /* Change background color to black when clicked */
-      color: white; /* Change text color to white when clicked */
+      background-color: black;
+      color: white;
     `}
 
   &:hover {
-    background-color: black; /* Change background color to black when hovered */
-    color: white; /* Change text color to white when hovered */
+    background-color: black;
+    color: white;
   }
 `;
 
 export default function Game() {
   const location = useLocation();
   const { state } = location || {};
-  const { game, questions } = state || {};
+  const { game, questions, entityName, modeBool, difficultyInt } = state || {};
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(null);
+  const [count, setCount] = useState(null);
   const gameId = game[0].gameId;
+  const seasonId = game[0].seasonId;
+  const [gameStatus, setGameStatus] = useState(true);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
-    const fetchScore = async () => {
-      try {
-        if (currentQuestionIndex === null) {
-          const data = await getGameResult(gameId);
-          setScore(data);
-        }
-      } catch (error) {
-        console.error("Error fetching game result:", error);
+    const defaultTime = 300;
+    if (count === null) {
+      if (difficultyInt === 0) {
+        setCount(defaultTime);
+      } else if (difficultyInt === 1) {
+        setCount(defaultTime * 1.25);
+      } else {
+        setCount(defaultTime * 1.5);
       }
-    };
-
-    if (currentQuestionIndex === null) {
-      fetchScore();
     }
-  }, [currentQuestionIndex, gameId]);
-
-  if (score !== null) {
-    console.log("SCORE", score);
-  }
+  }, [count, difficultyInt]);
 
   function nextQuestion() {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((result) => (result = currentQuestionIndex + 1));
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setCurrentQuestionIndex(null);
+      setGameStatus(false);
     }
   }
 
+  useEffect(() => {
+    if (!gameStatus) {
+      const updateLeaderboard = async () => {
+        if (modeBool) {
+          await updateIndividualLeaderboard(entityName, score, seasonId);
+        } else {
+          await updateTeamLeaderboard(entityName, score, seasonId);
+        }
+      };
+      updateLeaderboard();
+    }
+  }, [gameStatus, entityName, modeBool, score, seasonId]);
+
   function renderQuestion() {
+    if (!gameStatus) {
+      return <Endscreen score={score} />;
+    }
+
     if (!game) {
       return <p>Loading game...</p>;
     }
 
-    if (questions[0].length === 0) {
+    if (questions.length === 0) {
       return <p>No questions available.</p>;
-    }
-
-    if (currentQuestionIndex === null) {
-      return <Endscreen score={score} />;
     }
 
     const question = questions[currentQuestionIndex];
@@ -99,6 +112,7 @@ export default function Game() {
             onNext={nextQuestion}
             options={question.options}
             gameId={gameId}
+            setScore={setScore}
           />
         );
       case "blanks":
@@ -108,6 +122,7 @@ export default function Game() {
             onNext={nextQuestion}
             options={question.options}
             gameId={gameId}
+            setScore={setScore}
           />
         );
       case "oneValid":
@@ -117,6 +132,7 @@ export default function Game() {
             onNext={nextQuestion}
             options={question.options}
             gameId={gameId}
+            setScore={setScore}
           />
         );
       case "multipleValid":
@@ -126,6 +142,7 @@ export default function Game() {
             onNext={nextQuestion}
             options={question.options}
             gameId={gameId}
+            setScore={setScore}
           />
         );
       default:
@@ -136,6 +153,7 @@ export default function Game() {
   return (
     <>
       <Video />
+      <Clock setCount={setCount} count={count} />
       <div>{renderQuestion()}</div>
     </>
   );
@@ -143,38 +161,41 @@ export default function Game() {
 
 function QuestionHeader({ question, children }) {
   return (
-    <>
-      <ContainerStyled>
-        <img src={text} alt="question" style={{ marginBottom: "5%" }} />
-        <p style={{ fontSize: "30px", marginBottom: "40px" }}>
-          {question.description}
-        </p>
-        {children}
-      </ContainerStyled>
-    </>
+    <ContainerStyled>
+      <img src={text} alt="question" style={{ marginBottom: "5%" }} />
+      <p style={{ fontSize: "30px", marginBottom: "40px" }}>
+        {question.description}
+      </p>
+      {children}
+    </ContainerStyled>
   );
 }
 
-function Navigation({ onNext, answer, gameId, questionDescription }) {
+function Navigation({ onNext, answer, gameId, questionDescription, setScore }) {
   async function atualizarGame(answer) {
     if (questionDescription !== null) {
-      await updateGame(gameId, questionDescription, answer);
+      const points = await updateGame(gameId, questionDescription, answer);
+      if (points !== null) {
+        setScore((prevScore) => prevScore + points.points);
+      }
     }
   }
+
   return (
-    <>
-      <button
-        type="button"
-        onClick={() => (atualizarGame(answer), onNext())}
-        style={{ fontSize: "25px", borderRadius: "5px" }}
-      >
-        Next
-      </button>
-    </>
+    <button
+      type="button"
+      onClick={() => {
+        atualizarGame(answer);
+        onNext();
+      }}
+      style={{ fontSize: "25px", borderRadius: "5px" }}
+    >
+      Next
+    </button>
   );
 }
 
-function Boolean({ question, onNext, options, gameId }) {
+function Boolean({ question, onNext, options, gameId, setScore }) {
   const [clickedIndex, setClickedIndex] = useState(null);
   const [answer, setAnswer] = useState(null);
 
@@ -189,11 +210,12 @@ function Boolean({ question, onNext, options, gameId }) {
         {options.length > 0 ? (
           options.map((option, index) => (
             <Inputs
+              key={index}
               type="button"
               value={option.title}
               clicked={clickedIndex === index}
               onClick={() => handleClick(index, option.title)}
-            ></Inputs>
+            />
           ))
         ) : (
           <p>No options available</p>
@@ -204,19 +226,20 @@ function Boolean({ question, onNext, options, gameId }) {
         answer={answer}
         gameId={gameId}
         questionDescription={question.description}
+        setScore={setScore}
       />
     </QuestionHeader>
   );
 }
 
-function Blanks({ question, onNext, options, gameId }) {
+function Blanks({ question, onNext, options, gameId, setScore }) {
   const [answer, setAnswer] = useState(null);
 
   return (
     <QuestionHeader question={question}>
       <input
         type="text"
-        placeholder="Awnser"
+        placeholder="Answer"
         style={{
           fontSize: "20px",
           height: "50px",
@@ -224,11 +247,11 @@ function Blanks({ question, onNext, options, gameId }) {
           marginBottom: "20px",
         }}
         onChange={(e) => setAnswer(e.target.value)}
-      ></input>
+      />
       <Options>
         {options.length > 0 ? (
           options.map((option, index) => (
-            <Inputs type="button" value={option.title}></Inputs>
+            <Inputs key={index} type="button" value={option.title} />
           ))
         ) : (
           <p>No options available</p>
@@ -239,12 +262,13 @@ function Blanks({ question, onNext, options, gameId }) {
         answer={answer}
         gameId={gameId}
         questionDescription={question.description}
+        setScore={setScore}
       />
     </QuestionHeader>
   );
 }
 
-function OneValid({ question, onNext, options, gameId }) {
+function OneValid({ question, onNext, options, gameId, setScore }) {
   const [clickedIndex, setClickedIndex] = useState(null);
   const [answer, setAnswer] = useState(null);
 
@@ -259,11 +283,12 @@ function OneValid({ question, onNext, options, gameId }) {
         {options.length > 0 ? (
           options.map((option, index) => (
             <Inputs
+              key={index}
               type="button"
               value={option.title}
               clicked={clickedIndex === index}
               onClick={() => handleClick(index, option.title)}
-            ></Inputs>
+            />
           ))
         ) : (
           <p>No options available</p>
@@ -274,12 +299,13 @@ function OneValid({ question, onNext, options, gameId }) {
         answer={answer}
         gameId={gameId}
         questionDescription={question.description}
+        setScore={setScore}
       />
     </QuestionHeader>
   );
 }
 
-function MultipleValid({ question, onNext, options, gameId }) {
+function MultipleValid({ question, onNext, options, gameId, setScore }) {
   const [clickedIndices, setClickedIndices] = useState([]);
   const [answer, setAnswer] = useState([]);
 
@@ -287,20 +313,14 @@ function MultipleValid({ question, onNext, options, gameId }) {
     let newClickedIndices;
     let newAnswer;
 
-    let correctAnswerLenght = () => {
-      let correct = 0;
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].correct) {
-          correct++;
-        }
-      }
-      return correct;
-    };
+    const correctAnswerLength = options.filter(
+      (option) => option.correct
+    ).length;
 
     if (clickedIndices.includes(index)) {
       newClickedIndices = clickedIndices.filter((i) => i !== index);
       newAnswer = answer.filter((ans) => ans !== title);
-    } else if (clickedIndices.length < correctAnswerLenght()) {
+    } else if (clickedIndices.length < correctAnswerLength) {
       newClickedIndices = [...clickedIndices, index];
       newAnswer = [...answer, title];
     } else {
@@ -334,6 +354,7 @@ function MultipleValid({ question, onNext, options, gameId }) {
         answer={answer}
         gameId={gameId}
         questionDescription={question.description}
+        setScore={setScore}
       />
     </QuestionHeader>
   );
@@ -345,7 +366,7 @@ function Endscreen({ score }) {
       <Video />
       <ContainerStyled>
         <Title>Pontuação</Title>
-        <Paragrafo>{score.points} pts.</Paragrafo>
+        <Paragrafo>{score} pts.</Paragrafo>
         <SubmitButton>
           <Anchor href="/menu">Home</Anchor>
         </SubmitButton>

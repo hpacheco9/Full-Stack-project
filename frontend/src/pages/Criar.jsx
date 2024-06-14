@@ -46,13 +46,11 @@ const LabelContainer = styled.div`
 
 export default function Criar() {
   const navigate = useNavigate();
-  const [game, setGame] = useState(null);
-  const [questions, setQuestions] = useState([]);
+
   const { user } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(false);
-  const [difficulty, setDifficulty] = useState("0");
+
   const [teamRecord, setTeamRecord] = useState([]);
-  const [modeBool, setMode] = useState(true);
 
   // Effect to fetch team data after form submission
   useEffect(() => {
@@ -73,21 +71,20 @@ export default function Criar() {
   const handleFormSubmit = async (values) => {
     const difficultyInt = parseInt(values.difficulty, 10);
     const modeBool = values.mode === "true";
-    setMode(modeBool);
-    setDifficulty(values.difficulty);
+
     if (teamRecord.length > 0) {
       try {
         setLoading(true);
+        var entityName = modeBool ? user?.username : teamRecord[0].teamName;
         const { game, questions } = await generateGame(
-          modeBool ? user?.username : teamRecord[0].teamName,
+          entityName,
           difficultyInt
         );
-        setGame(game);
-        setQuestions(questions);
+
         setLoading(false);
 
         navigate("/game", {
-          state: { game, questions },
+          state: { game, questions, entityName, modeBool, difficultyInt },
         });
       } catch (error) {
         console.error("Error fetching game data:", error);

@@ -96,8 +96,10 @@ export default function Leaderboard() {
         console.error("Error fetching current season ID:", error);
       }
     };
-    fetchSeasonId();
-  }, []);
+    if (!seasonId) {
+      fetchSeasonId();
+    }
+  }, [seasonId]);
 
   useEffect(() => {
     const fetchRecords = async () => {
