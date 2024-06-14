@@ -33,15 +33,15 @@ router.get("/team", async (req, res) => {
 });
 
 router.post("/individual", async (req, res) => {
-  const { username, score, seasonId } = req.body;
-  await updateIndividualLeaderboard(username, score, seasonId);
-  res.json({});
+  const { entityName, score, seasonId } = req.body;
+  await updateIndividualLeaderboard(entityName, score, seasonId);
+  return res.json({});
 });
 
 router.post("/team", async (req, res) => {
-  const { teamName, score, seasonId } = req.body;
-  await updateTeamLeaderboard(teamName, score, seasonId);
-  res.json({});
+  const { entityName, score, seasonId } = req.body;
+  await updateTeamLeaderboard(entityName, score, seasonId);
+  return res.json({});
 });
 
 export default router;

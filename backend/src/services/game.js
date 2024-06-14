@@ -13,9 +13,9 @@ export async function updateGame(
     if (Array.isArray(providedAnswer)) {
       for (const answer of providedAnswer) {
         points = await validateAnswer(questionDescription, answer);
-        concatenatedAnswer += answer + ", "; // Adjust as needed for your specific format
+        concatenatedAnswer += answer + ", ";
       }
-      concatenatedAnswer = concatenatedAnswer.slice(0, -2); // Remove the trailing comma and space
+      concatenatedAnswer = concatenatedAnswer.slice(0, -2);
     } else {
       points = await validateAnswer(questionDescription, providedAnswer);
       concatenatedAnswer = providedAnswer;
@@ -30,6 +30,7 @@ export async function updateGame(
         },
       }
     );
+    return points;
   } catch (error) {
     console.error(
       `Error updating game with ID ${providedGameId} for question ${questionDescription}:`,

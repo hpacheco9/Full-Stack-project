@@ -40,18 +40,11 @@ router.get("/", [gameStartSchema, validateSchema], async (req, res) => {
 
 router.post("/updateGame", async (req, res) => {
   const { providedGameId, questionDescription, providedAnswer } = req.body;
-  const game = await updateGame(
+  const points = await updateGame(
     providedGameId,
     questionDescription,
     providedAnswer
   );
-  return res.send({ game });
-});
-
-router.get("/getGameResult", async (req, res) => {
-  const { providedGameId } = req.query;
-  const points = await getGameResult(providedGameId);
-
   return res.send({ points });
 });
 
